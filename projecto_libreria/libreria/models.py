@@ -13,12 +13,9 @@ class AutorManager(models.Manager):
     return date.today() + timedelta(days=ene)
     
   def crear_autor(self, cantidad):
-    autores = []
     for i in range(cantidad):
-      autores.append(self.create(nombre="Autor" + str(i), nacionalidad = self.crear_nacionalidad(), fecha_nacimiento = self.crear_fecha(i)))
-    return autores
+      self.create(nombre="Autor" + str(i), nacionalidad = self.crear_nacionalidad(), fecha_nacimiento = self.crear_fecha(i))
       
- 
 class Autor(models.Model):
   objects = AutorManager()
   nombre = models.CharField(max_length=100)
@@ -26,20 +23,21 @@ class Autor(models.Model):
   fecha_nacimiento = models.DateField(default='--')
     
 class LibroManager(models.Manager):
-  def crear_libros(self,cantidad):
+  def crear_libro(self,cantidad):
     for i in range(cantidad):
-      randa=random.randint(1,6)
-      autor_rand=Autor.objects.all()[randa:randa+1].get()
-      a=self.create(
-        isbn=11112223+i,
-        titulo="titulo"+str(i),
-        editorial="editorial"+str(i),
-        anio=1988+random.randint(1,6),
-        tipo_libro=Libro.TIPO_LIBRO_CHOICES[random.randint(0, 3)]
+      aleatorio = random.randint(1,6)
+      autor_aleatorio = Autor.objects.all()[aleatorio:aleatorio+1].get()
+      libro = self.create(
+        isbn = 11112223 + i,
+        titulo = "titulo" + str(i),
+        editorial = "editorial" + str(i),
+        anio = 1988 + random.randint(1,6),
+        #tipo_libro = Libro.TIPO_LIBRO_CHOICES[random.randint(0, 3)]
+        tipo_libro = 'Novela' if (aleatorio % 4) == 0 else 
+                    ('Teatro' if (aleatorio % 4) == 1 else 
+                    ('Poesía' if (aleatorio % 4) == 2 else 'Ensayo'))
         )
-      a.autor.add(autor_rand)                   
-                
-  
+      libro.autor.add(autor_aleatorio)                   
 
 class Libro(models.Model):
   objects=LibroManager()
