@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('libreria/horario/', VistaHora.as_view()),
     path('libreria/hora/<str:apellido>/<str:nombre>', HoraViewTemplate.as_view()), 
-    path('libreria/<str:genero>/', ListadoLibros.as_view()),
+    path('libreria/genero/<str:genero>/', ListadoGenero.as_view()),
+    path('libreria/autor/<str:autor>/', ListadoAutor.as_view()),
 ]

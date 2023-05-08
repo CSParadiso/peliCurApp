@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 from datetime import datetime
 from django.core.paginator import Paginator
-from libreria.models import Libro
+from libreria.models import *
 
 
 # Create your views here.
@@ -32,12 +32,23 @@ class HoraViewTemplate(TemplateView):
       context['apellido'] = self.kwargs['apellido']
       return context
     
-class ListadoLibros(TemplateView):
+class ListadoGenero(TemplateView):
     template_name = "listado_libros.html"
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         genero = self.kwargs['genero']
         libros = Libro.objects.filter(tipo_libro = genero)
+        paginador = Paginator(libros, 12)
+        numero_pagina = self.request.GET.get('page')
+        context['page_obj'] = paginador.get_page(numero_pagina)
+        return context 
+
+class ListadoAutor(TemplateView):
+    template_name = "listado_libros.html"
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        autorcito = self.kwargs['autor']
+        libros = Libro.objects.filter(autor = Autor.objects.get(nombre = autorcito))
         paginador = Paginator(libros, 12)
         numero_pagina = self.request.GET.get('page')
         context['page_obj'] = paginador.get_page(numero_pagina)

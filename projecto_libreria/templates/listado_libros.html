@@ -1,10 +1,19 @@
 <html>
   <body>
-    {% for libro in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ libro.titulo|upper }} {{ libro.isbn }}<br>
-    ...
-{% endfor %}
+    <table style="border: 1px solid black">
+      <tr>
+        <th>Titulo</th>
+        <th>ISBN</th>
+        <th>Autor/es</th>
+      </tr>
+    {% for libro in page_obj %} 
+      <tr>
+        <td>{{ libro.titulo|upper }}</td>
+        <td>{{ libro.isbn }}</td>
+        <td>{% for autor in  libro.autor.all %} {{ autor.nombre }} {% endfor %}</td>
+      </tr>
+    {% endfor %}
+      </table><br>
 
 <div class="pagination">
     <span class="step-links">

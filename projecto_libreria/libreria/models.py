@@ -14,7 +14,7 @@ class AutorManager(models.Manager):
     
   def crear_autor(self, cantidad):
     for i in range(cantidad):
-      self.create(nombre="Autor" + str(i), nacionalidad = self.crear_nacionalidad(), fecha_nacimiento = self.crear_fecha(i))
+      self.create(nombre="Autor " + str(i), nacionalidad = self.crear_nacionalidad(), fecha_nacimiento = self.crear_fecha(i))
       
 class Autor(models.Model):
   objects = AutorManager()
@@ -26,18 +26,18 @@ class LibroManager(models.Manager):
   def crear_libro(self,cantidad):
     for i in range(cantidad):
       aleatorio = random.randint(1,6)
-      autor_aleatorio = Autor.objects.all()[aleatorio:aleatorio+1].get()
+      # filter retorna QuerySet y get retorna Objeto
+      autor_aleatorio = Autor.objects.all()[aleatorio:aleatorio+1]
       libro = self.create(
         isbn = 11112223 + i,
-        titulo = "titulo" + str(i),
-        editorial = "editorial" + str(i),
+        titulo = "Titulo " + str(i),
+        editorial = "Editorial " + str(i),
         anio = 1988 + random.randint(1,6),
-        #tipo_libro = Libro.TIPO_LIBRO_CHOICES[random.randint(0, 3)]
         tipo_libro = 'Novela' if (aleatorio % 4) == 0 else 
                     ('Teatro' if (aleatorio % 4) == 1 else 
                     ('Poesía' if (aleatorio % 4) == 2 else 'Ensayo'))
         )
-      libro.autor.add(autor_aleatorio)                   
+      libro.autor.add(autor_aleatorio[0].id) # Necesito pasarle el id del autor de alguna manera                  
 
 class Libro(models.Model):
   objects=LibroManager()
