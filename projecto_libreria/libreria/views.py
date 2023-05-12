@@ -54,4 +54,7 @@ class ListadoAutor(TemplateView):
         context['page_obj'] = paginador.get_page(numero_pagina)
         return context 
 
-    
+class AutoresAll(TemplateView):
+  template_name='autores_all.html'
+  def get_context_data(self, **kwargs):
+      return super().get_context_data(**kwargs)

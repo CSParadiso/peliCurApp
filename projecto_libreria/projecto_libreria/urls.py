@@ -24,4 +24,5 @@ urlpatterns = [
     path('libreria/hora/<str:apellido>/<str:nombre>', HoraViewTemplate.as_view()), 
     path('libreria/genero/<str:genero>/', ListadoGenero.as_view()),
     path('libreria/autor/<str:autor>/', ListadoAutor.as_view()),
+    path('libreria/autores',AutoresAll.as_view())
 ]
