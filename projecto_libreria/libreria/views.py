@@ -53,3 +53,5 @@ class ListadoAutor(TemplateView):
         numero_pagina = self.request.GET.get('page')
         context['page_obj'] = paginador.get_page(numero_pagina)
         return context 
+
+    
