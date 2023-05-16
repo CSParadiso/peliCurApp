@@ -55,6 +55,6 @@ class ListadoAutor(TemplateView):
         return context 
 
 class AutoresAll(TemplateView):
-  template_name='autores_all.html'
-  def get_context_data(self, **kwargs):
-      return super().get_context_data(**kwargs)
+    template_name='autores_all.html'
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)

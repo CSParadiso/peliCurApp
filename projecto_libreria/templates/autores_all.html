@@ -1,1 +1,8 @@
 {% extends 'base_template.html'%}
+
+{% block contenido %}
+  <p>Este es un párrafo introductorio previo a un paginator de todos los autores:</p>
+  {% for autor in libreria.Autor %}
+    <li>autor.nombre</li>
+  {% endfor %}
+{% endblock %}
