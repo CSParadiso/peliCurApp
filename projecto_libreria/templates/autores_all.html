@@ -2,7 +2,7 @@
 
 {% block contenido %}
   <p>Este es un párrafo introductorio previo a un paginator de todos los autores:</p>
-  {% for autor in libreria.Autor %}
-    <li>autor.nombre</li>
+  {% for autor in autores %}
+    <li>{{autor.nombre}}</li>
   {% endfor %}
 {% endblock %}

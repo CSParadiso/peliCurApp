@@ -57,4 +57,10 @@ class ListadoAutor(TemplateView):
 class AutoresAll(TemplateView):
     template_name='autores_all.html'
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        modelo_vista=super().get_context_data(**kwargs)
+        autores=Autor.objects.all()
+        paginador = Paginator(autores, 12)
+        numero_pagina = self.request.GET.get('page')
+        modelo_vista['page_obj'] = paginador.get_page(numero_pagina)
+        modelo_vista['autores']=autores
+        return modelo_vista
