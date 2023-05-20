@@ -1,5 +1,5 @@
 """
-URL configuration for projecto_libreria project.
+URL configuration for peliCurApp project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -16,14 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from libreria.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('libreria/horario/', VistaHora.as_view()),
-    path('libreria/hora/<str:apellido>/<str:nombre>', HoraViewTemplate.as_view()), 
-    path('libreria/genero/<str:genero>/', ListadoGenero.as_view()),
-    path('libreria/autor/<str:autor>/', ListadoAutor.as_view()),
-    path('libreria/autores',AutoresAll.as_view()),
-    path('libreria/formulario', FormularioGenero.as_view(), name="formulario-genero")
 ]

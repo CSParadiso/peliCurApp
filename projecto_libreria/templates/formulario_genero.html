@@ -1,0 +1,11 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+
+<form action={% url "formulario-genero" %} method="post">
+  {% csrf_token %}
+  {{ form }}
+<input type="submit" value="Sacudile">
+</form>  
+
+{% endblock %}
