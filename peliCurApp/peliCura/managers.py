@@ -12,12 +12,13 @@ class PersonaManager(models.Manager):
     '''
     # Crear persona (sin foto)
     def crear_persona(self, name, last_name, art_name, country, born, bio):
-        self.create(nombre = name, apellido = last_name, nombre_artistico = art_name, 
-                    nacionalidad = country, nacimiento = born, 
-                    biografia = bio)
+        persona = self.create(nombre = name, apellido = last_name, nombre_artistico = art_name, 
+                             nacionalidad = country, nacimiento = born, 
+                            biografia = bio)
         # asignación --> Persona.manager.crear_persona("Apolinario", "Rodriguex Mirtó", "Luménico", "Serbia",
         #                                              "1985", "De la guerra balcana surgido")
         # recuperar Persona.manager.values()[indiceQuerySet]['elementoDiccionario']
+        return persona
 
 
 
@@ -29,13 +30,8 @@ class ComentarioManager(models.Manager):
         comentario = self.create(pelicula = peli_mentario, 
                                  descripcion = descri_mentario, 
                                  valoracion = rating)
-        
         return comentario
 
-    # Auditar comentario
-    def auditar_comentario(self, state):
-        estado = state
-        
 
 
 # Manager para Genero
@@ -43,14 +39,15 @@ class GeneroManager(models.Manager):
     
     # Crear género
     def crear_genero(self, nombre_genero, descripcion_genero):
-        self.create(nombre = nombre_genero, descripcion = descripcion_genero)
+        genero = self.create(nombre = nombre_genero, descripcion = descripcion_genero)
+        return genero
 
 
 
 # Manager para Pelicula
 class PeliculaManager(models.Manager):
     
-    # Crear duración
+    # Crear duración (en minutos)
     def crear_duracion(self, minutos):
         return timedelta(minutes=minutos)
 
@@ -77,5 +74,6 @@ class PeliculaManager(models.Manager):
             id = int(a.id) 
             pelicula.actor.add(id)
         '''
+        return pelicula
 
     

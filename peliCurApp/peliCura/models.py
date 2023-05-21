@@ -1,5 +1,6 @@
 from django.db import models
 from peliCura.managers import *
+from django.core.exceptions import *
 
 
 # Create your models here.
@@ -101,7 +102,7 @@ class Persona(models.Model):
     nombre_artistico = models.CharField(max_length=70)
     nacionalidad = models.CharField(max_length=70)
     foto = models.ImageField() # Hereda todo de FileField. <input type="file" ...> en HTML
-    nacimiento = models.IntegerField()
+    anio_nacimiento = models.IntegerField() # Solo el año
     biografia = models.TextField(max_length=300)
 
 
@@ -109,7 +110,6 @@ class Persona(models.Model):
 class Genero(models.Model):
     manager = GeneroManager()
     nombre = models.CharField(max_length=20, unique=True)
-    descripcion = models.CharField(max_length=100)
 
 
 
@@ -118,7 +118,7 @@ class Pelicula(models.Model):
     manager = PeliculaManager()
     titulo = models.CharField(max_length=100) # <input type="text"> en HTML
     resumen = models.TextField() # <textarea> en HTML
-    anio_realizacion = models.IntegerField()
+    anio_realizacion = models.IntegerField() # solo el año
     duracion = models.DurationField() # timedelta(days, seconds, miliseconds) en Python
     # asignación --> duracion = timedelta(minutes=X)
     # horas = pelicula.duracion.seconds // 60
@@ -165,15 +165,26 @@ class Comentario(models.Model):
         default = ESCRITO,
     )
     manager = ComentarioManager()
-    _fecha = models.DateTimeField( format("%D-%m-%d %H-%M-%S"), auto_now_add=True) # Fecha de creado el objeto datetime
+    _fecha = models.DateTimeField(format("%D-%m-%d %H-%M-%S"), auto_now_add=True) # Fecha de creado el objeto datetime
+    # recuperar --> comentario.fecha = datetime.datetime(2023, 5, 20, 22, 55, 4, 393404, tzinfo=datetime.timezone.utc)
+    # recupera en string --> comentario.fecha.strftime('%Y-%m') = '2023-05'
     descripcion = models.TextField(max_length=100)
-    valoracion = models.FloatField() # <input type="number"> y Float
+    valoracion = models.FloatField() # DEBE SER ENTRE 1 y 5 ---- <input type="number"> y Float
     pelicula = models.ForeignKey("Pelicula", on_delete=models.DO_NOTHING) 
     # asignación --> comentario = Comentario.objects.create(descripcion="", pelicula=nombreObjectoPelicula)
     # recuperar todos los comentarios:
     # comentarios = [comentario['descripcion'] for comentario in pelicula.comentario_set.values('descripcion')]
     nombre = models.CharField(max_length=100)
     email = models.EmailField()
+
+     # Auditar comentario cuando administrador audite los comentarios
+    def auditar_comentario(self, state):
+        if state in dict(self.ESTADO_COMENTARIO_CHOICES):
+            self._estado = state   
+            self.save()     
+        else:
+            raise ValidationError('Estado Inválido')
+        return state
 
     # Sobreescribir save() de Comentario para que actualice puntuacion de la película
     def save(self, *args, **kwargs):
