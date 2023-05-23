@@ -1,0 +1,7 @@
+body {
+  background-image: URL('../bg.jpg');
+  background-size: cover;
+  color: black;
+  font-family: 'Cinzel', 'Courier New', Courier, monospace;
+  font-weight: bold;
+}

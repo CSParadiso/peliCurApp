@@ -1,0 +1,49 @@
+{% extends 'base_template.html' %}
+
+{# Comienzo del bloque heredado #} 
+{% block contenido%}
+
+{% for pelicula in page_obj %}
+    {# Cada "pelicula" es un objecto del modelo Pelicula. #}
+    {# Mostrar nombre (título) de película, foto (poster) y ranking (puntuacion) #}
+
+    {# https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
+    <div class="card text-bg-dark" style="max-width:30%">
+      <a href="https://www.google.com.ar" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+      <div class="card-img-overlay">
+        <h5 class="card-title" style="color:yellow">{{ pelicula.titulo }}</h5>
+        <p class="card-text" style="color:yellow">{{ pelicula.puntuacion|floatformat:2 }}</p>
+      </div></a>
+    </div>    
+
+    {# Si no hay películas #}
+    {% empty %}
+    <p>No existen películas para mostrar</p>
+
+{% endfor %}
+
+{# Si hay siguiente página, mostramos elipsis al final de la lista #}
+{% if page_obj.has_next%} 
+  ...<br>
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previa</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{# Fin del bloque heredado #} 
+{% endblock contenido%}

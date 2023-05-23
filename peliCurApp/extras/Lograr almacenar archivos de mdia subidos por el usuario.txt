@@ -1,0 +1,28 @@
+Based on your provided code snippets, it seems that you have defined the `MEDIA_ROOT` and `MEDIA_URL` settings correctly. However, there is one adjustment you need to make in your `settings.py` file. 
+
+Since `MEDIA_ROOT` is a relative path, you need to ensure that it is defined as an absolute path by joining it with the `BASE_DIR`. Here's the updated code:
+
+```python
+BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_ROOT = BASE_DIR / 'media' 
+MEDIA_URL = '/pelicurapp/media/'
+```
+
+By using the `Path` object and joining it with `BASE_DIR`, you ensure that `MEDIA_ROOT` is an absolute path to the `'media'` directory in your Django project.
+
+With this configuration, media files uploaded through the `poster` field with the `upload_to='posters_peliculas'` option will be stored in the `'media/posters_peliculas'` directory relative to your project's root directory. The media files will be accessible via URLs that start with `'/pelicurapp/media/'`.
+
+Make sure you have the necessary configurations in your web server to serve the media files correctly when running in a production environment.
+
+Additionally, ensure that you have included the following code in your project's `urls.py` file to handle media file serving during development:
+
+```python
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # ... Your URL patterns ...
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+This will configure the necessary URL patterns to serve the media files when running Django in the development server.

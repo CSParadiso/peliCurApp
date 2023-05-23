@@ -1,0 +1,35 @@
+<mxfile host="Electron" modified="2023-05-23T14:23:36.357Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="yImJx-eIHXz9uiG5sL2n" version="21.2.8" type="device" pages="3">
+  <diagram name="Diseño" id="elj2Wd-85KdEdcDbyUww">
+    <mxGraphModel dx="1346" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QKWpxKyMjA4pjrlBicZm-1" value="PeliCurApp" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Cinzel;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DCinzel;fontSize=48;" vertex="1" parent="1">
+          <mxGeometry x="280" y="310" width="291" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Exporta" id="2LYrRNt2lf1BH_2L05NO">
+    <mxGraphModel dx="1346" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="cOtr6pgAtwcanLEfqNkA-0" />
+        <mxCell id="cOtr6pgAtwcanLEfqNkA-1" parent="cOtr6pgAtwcanLEfqNkA-0" />
+        <mxCell id="cOtr6pgAtwcanLEfqNkA-2" value="PeliCurApp" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Cinzel;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DCinzel;fontSize=48;" vertex="1" parent="cOtr6pgAtwcanLEfqNkA-1">
+          <mxGeometry x="280" y="310" width="291" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Logo" id="7pd2IIExkVkASSKD3d12">
+    <mxGraphModel dx="1346" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="6D6_V3O_ur4TY_G7cu15-0" />
+        <mxCell id="6D6_V3O_ur4TY_G7cu15-1" parent="6D6_V3O_ur4TY_G7cu15-0" />
+        <mxCell id="6D6_V3O_ur4TY_G7cu15-2" value="PeliCurApp" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Cinzel;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DCinzel;fontSize=48;" vertex="1" parent="6D6_V3O_ur4TY_G7cu15-1">
+          <mxGeometry x="280" y="310" width="291" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

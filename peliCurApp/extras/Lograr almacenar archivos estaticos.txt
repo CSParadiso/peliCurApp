@@ -1,0 +1,1 @@
+https://docs.djangoproject.com/en/4.2/howto/static-files/#how-to-manage-static-files-e-g-images-javascript-css

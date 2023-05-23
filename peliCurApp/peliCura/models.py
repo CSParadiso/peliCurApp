@@ -101,7 +101,8 @@ class Persona(models.Model):
     apellido = models.CharField(max_length=70) 
     nombre_artistico = models.CharField(max_length=70)
     nacionalidad = models.CharField(max_length=70)
-    foto = models.ImageField() # Hereda todo de FileField. <input type="file" ...> en HTML
+    foto = models.ImageField(upload_to='fotos_personas', null=True) # form widget es ClearableFileInput
+                               # Hereda todo de FileField. <input type="file" ...> en HTML
     anio_nacimiento = models.IntegerField() # Solo el año
     biografia = models.TextField(max_length=300)
 
@@ -139,6 +140,7 @@ class Pelicula(models.Model):
     #                       = Lillaed Quique
     # retrieve all --> list(pelicula.actor.values_list('nombre_artistico', flat=True)) = ['Lillard', 'Quique']
     puntuacion = models.FloatField() # <input type="number"> y Float
+    poster = models.ImageField(upload_to='posters_peliculas', null=True)
 
     # Actualizar puntuación película
     def agregar_puntuacion(self, valoracion):
