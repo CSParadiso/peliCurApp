@@ -116,7 +116,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    str(BASE_DIR / 'peliCura' / 'static/'),
+]
+
+STATIC_URL = '/static/'
 
 # Definiendo carpeta de recursos donde se alojan los archivos de medios (imágenes)
 # https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-MEDIA_ROOT

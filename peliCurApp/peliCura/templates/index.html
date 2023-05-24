@@ -2,25 +2,34 @@
 
 {# Comienzo del bloque heredado #} 
 {% block contenido%}
+<div class="contenido">
 
-{% for pelicula in page_obj %}
-    {# Cada "pelicula" es un objecto del modelo Pelicula. #}
-    {# Mostrar nombre (título) de película, foto (poster) y ranking (puntuacion) #}
+<br>
 
-    {# https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
-    <div class="card text-bg-dark" style="max-width:30%">
-      <a href="https://www.google.com.ar" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
-      <div class="card-img-overlay">
-        <h5 class="card-title" style="color:yellow">{{ pelicula.titulo }}</h5>
-        <p class="card-text" style="color:yellow">{{ pelicula.puntuacion|floatformat:2 }}</p>
-      </div></a>
-    </div>    
+{# Usamos grid desde Bootstrap: https://getbootstrap.com/docs/5.3/layout/grid/#row-columns #}
+<div class="container text-center">
+  <div class="row row-cols-3">
+  
+    {% for pelicula in page_obj %}
+      <div class="col">
+        {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
+        <div class="card text-bg-dark">
+          <a href="https://www.google.com.ar" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+          <div class="card-img-overlay">
+            <h5 class="card-title" style="color:yellow">{{ pelicula.titulo }}</h5>
+            <p class="card-text" style="color:yellow">{{ pelicula.puntuacion|floatformat:2 }}</p>
+          </div></a>
+        </div>    
+      </div>
 
-    {# Si no hay películas #}
+      {# Si no hay películas #}
     {% empty %}
-    <p>No existen películas para mostrar</p>
+      <p>No existen películas para mostrar</p>
+    {% endfor %}
 
-{% endfor %}
+  </div>
+</div>
+
 
 {# Si hay siguiente página, mostramos elipsis al final de la lista #}
 {% if page_obj.has_next%} 
@@ -46,4 +55,6 @@
 </div>
 
 {# Fin del bloque heredado #} 
+</div>
 {% endblock contenido%}
+

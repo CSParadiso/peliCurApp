@@ -1,0 +1,40 @@
+/* Variables globales */
+:root {
+  --skyBlue: #8ecae6; 
+  --blueGreen: #219ebc; 
+  --prussianBlue: #023047; /* Fuentes */ 
+  --selectiveYellow: #ffb703;  /* Color de fondo */
+  --UTOrange: #fb8500;
+}
+
+/* Elementos */
+body {
+  background-color: var(--selectiveYellow);
+  /*background-image: linear-gradient(to bottom right, var(--jet), var(--caribbeanCurrent), 
+                                    var(--white), var(--platinum), var(--indigoDye));
+  background-repeat: inherit;*/
+  color: var(--prussianBlue);
+  font-family: 'Cinzel', 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+/* Clases */
+
+/*
+.contenido {
+  border: 1px solid black;
+}
+*/
+
+  /* Sobreescribir Bootstrap */
+  .navbar { /* Padding y borde inferior de la barra de navegación */
+    padding: 0%;
+    border-bottom: 5px solid white;
+  }
+
+  .container-fluid { /* Color de fondo del contenedor interno de la barra de navegación */
+    background-color: var(--selectiveYellow);
+  }
+
+/* Ids */
+
