@@ -1,0 +1,32 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+  <h4>Título: {{ pelicula.titulo }}</h4>
+  <h4>Resumen: {{ pelicula.resumen }}</h4>
+  <h4>Año realización: {{ pelicula.anio_realizacion }}</h4>  
+  <h4>Duración: {{ pelicula.duracion }}</h4>  
+  <h4>Puntuación: {{ pelicula.puntuacion }}</h4>  
+  <img src="{{ pelicula.poster.url }}" width="30%" height="auto"/>  
+  <h4>Género/s: 
+    {% for genero in generos %}
+      <a href="{% url 'genero-listado' genero.nombre %}" target="_self">{{ genero.nombre }}</a>
+      {% empty %} <br>
+    {% endfor %}
+  </h4>{% comment "x" %}
+  <h4>Director/es: 
+    {% for director in directores %} 
+      <a href="{% url 'detalle-director' director.apellido %}" target="_self">{{ director.nombre_artistico }}</a>
+      {% empty %} <br>
+    {% endfor %}
+  </h4>
+  <h4>Actor/es: 
+    {% for actor in actores %}
+      <a href="{% url 'detalle-actor' actor.apellido %}" target="_self">{{ actor.nombre_artistico }}</a>
+      {% empty %} <br>
+    {% endfor %}
+  </h4>{% endcomment %}
+{% endblock %}
+
+
+
+

@@ -1,0 +1,12 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+
+  <h4>Nombre: {{ genero.nombre }}</h4>
+  <h4>Película/s: 
+    {% for pelicula in peliculas%}
+      {{ pelicula.titulo }}<br>
+    {% endfor %}
+  </h4>
+
+{% endblock %}
