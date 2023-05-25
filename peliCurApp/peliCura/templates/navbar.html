@@ -14,7 +14,7 @@
           <a class="nav-link active" aria-current="page" href="#">Películas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Directores</a>
+          <a class="nav-link" href="{% url 'directores-listado' %}">Directores</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Actores</a>
@@ -25,7 +25,7 @@
           </a>
           <ul class="dropdown-menu">
             {% for genero in generos %}
-            <li><a class="dropdown-item" href="{% url 'genero-listado' genero.nombre %}">{{ genero.nombre }}</a></li>
+            <li><a class="dropdown-item" href="{% url 'genero-listado-id' genero.id %}">{{ genero.nombre }}</a></li>
             {% endfor %}
           </ul>
         </li>

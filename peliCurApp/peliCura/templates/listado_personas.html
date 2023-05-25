@@ -1,0 +1,27 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+
+{% if personas|length > 0 %}
+  <table>
+    <tr>
+      <th>Director/a</th>
+      <th>Película/s</th>
+    </tr>
+    {% for persona in personas %}
+      <tr>
+        <td>{{ persona.apellido }}, {{ persona.nombre }}</td>
+        <td>{% for pelicula in persona.director.all %}
+              <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br> 
+            {% empty %} <br>
+            {% endfor %}
+        </td>
+      </tr>
+    {% empty %} <br>
+
+    {% endfor %}
+
+  </table>
+{% endif %}
+
+{% endblock %}

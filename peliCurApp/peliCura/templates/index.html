@@ -14,7 +14,7 @@
       <div class="col">
         {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
         <div class="card text-bg-dark">
-          <a href="https://www.google.com.ar" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+          <a href="{% url 'detalle-pelicula-id' pelicula.id %}" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
           <div class="card-img-overlay">
             <h5 class="card-title" style="color:yellow">{{ pelicula.titulo }}</h5>
             <p class="card-text" style="color:yellow">{{ pelicula.puntuacion|floatformat:2 }}</p>

@@ -18,6 +18,13 @@ body {
   font-weight: bold;
 }
 
+table, th, td {
+  border: 2px solid var(--selectiveYellow);
+  border-collapse: collapse;
+  text-align: center;
+  padding: 5px 5px;
+}
+
 /* Clases */
 /*
 .contenido {

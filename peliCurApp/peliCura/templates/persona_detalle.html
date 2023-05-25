@@ -1,0 +1,25 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+  <h4>Foto: {{ persona.foto }}</h4>
+  <h4>Nombre: {{ persona.nombre }}</h4>
+  <h4>Apellido: {{ persona.apellido }}</h4>
+  <h4>Nombre Artístico: {{ persona.nombre_artistico }}</h4>
+  <h4>Nacionalidad: {{ persona.nacionalidad }}</h4>
+  <h4>Año nacimiento: {{ persona.anio_nacimiento }}</h4>
+  <h4>Biografía: {{ persona.biografia }}</h4>
+  <h4>Dirige en: 
+    {% for pelicula in dirigidas %}
+    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a></li>
+    {% empty %} <br>
+    {% endfor %}
+  </h4>
+  <h4>Actúa en: 
+    {% for pelicula in actuadas %}
+    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a></li>
+    {% empty %} <br>
+    {% endfor %}
+  </h4>
+
+  
+{% endblock %}

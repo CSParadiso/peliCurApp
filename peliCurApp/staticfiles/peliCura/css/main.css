@@ -9,31 +9,52 @@
 
 /* Elementos */
 body {
-  background-color: var(--selectiveYellow);
+  background-color: var(--prussianBlue);
   /*background-image: linear-gradient(to bottom right, var(--jet), var(--caribbeanCurrent), 
                                     var(--white), var(--platinum), var(--indigoDye));
   background-repeat: inherit;*/
-  color: var(--prussianBlue);
+  color: var(--UTOrange);
   font-family: 'Cinzel', 'Courier New', Courier, monospace;
   font-weight: bold;
 }
 
-/* Clases */
+table {
+  border: 5px solid var(--selectiveYellow);
+  border-collapse: collapse;
+  background-color: var(--blueGreen);
+}
 
+/* Clases */
 /*
 .contenido {
-  border: 1px solid black;
+  background-color: var(--blueGreen);
 }
 */
 
   /* Sobreescribir Bootstrap */
+  .nav-link{
+    color: var(--prussianBlue);
+    font-weight: bolder;
+  }
+  
+  .container {
+    /*background-color: var(--blueGreen);*/
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
   .navbar { /* Padding y borde inferior de la barra de navegación */
     padding: 0%;
     border-bottom: 5px solid white;
   }
 
   .container-fluid { /* Color de fondo del contenedor interno de la barra de navegación */
-    background-color: var(--selectiveYellow);
+    background-color: var(--skyBlue);
+  }
+
+  .col:hover {
+    transform: scale(1.2, 1.2);
+    z-index: 18;
   }
 
 /* Ids */

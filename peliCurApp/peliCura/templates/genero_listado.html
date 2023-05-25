@@ -3,9 +3,10 @@
 {% block contenido %}
 
   <h4>Nombre: {{ genero.nombre }}</h4>
-  <h4>Película/s: 
+  <h4>Película/s: <br>
     {% for pelicula in peliculas%}
-      {{ pelicula.titulo }}<br>
+      <a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo }}</a><br>
+    {% empty %} <br>
     {% endfor %}
   </h4>
 
