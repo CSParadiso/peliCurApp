@@ -1,10 +1,11 @@
 from typing import Any, Dict
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.views.generic import *
 from peliCura.models import *
 from django.core.paginator import Paginator
 from django.http import Http404
+from .forms import FormularioComentario
 
 # Create your views here.
 
@@ -54,7 +55,38 @@ class PeliculaDetalle(TemplateView):
 
         # Asignar la correspondiente película al template
         context['pelicula'] = pelicula
+
+        # Añadir al contexto el formulario del modelo
+        context['formulario_comentario'] = FormularioComentario()
         return context
+
+    # Lógica del formulario 
+    def post(self, request, *args, **kwargs):
+      formulario = FormularioComentario(request.POST)
+      # Si el formulario es válido
+      if formulario.is_valid(): 
+          # Extraer la info del formulario
+          pelicula_comentada = self.get_context_data()['pelicula']
+          correo = formulario.cleaned_data['email']
+          nombre = formulario.cleaned_data['nombre'] 
+          valoracion = formulario.cleaned_data['valoracion']
+          descripcion = formulario.cleaned_data['descripcion']
+
+          # Crear el comentario con el manager 
+          Comentario.manager.crear_comentario(pelicula_comentada, 
+                                              correo, 
+                                              nombre, 
+                                              descripcion,
+                                              valoracion,)
+          
+          # Retornar a la misma página
+          return redirect('detalle-pelicula-id', pelicula_comentada.id)
+      else:
+          # Si la respuesta no es exitosa
+          context = self.get_context_data(**kwargs)
+          context['formulario_comentario'] = formulario
+          return self.render_to_response(context)
+          
 
 # Controlador de página detalle de Persona  
 class PersonaDetalle(TemplateView):
@@ -127,7 +159,7 @@ class GeneroListado(TemplateView):
 
 # Controlador de página listado de Directores
 class ListadoDirectores(TemplateView):
-   template_name = "listado_personas.html"
+   template_name = "listado_directores.html"
    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
       context = super().get_context_data(**kwargs)
       
@@ -136,3 +168,13 @@ class ListadoDirectores(TemplateView):
       context['personas'] = personas
       return context    
 
+# Controlador de página listado de Actores
+class ListadoActores(TemplateView):
+   template_name = "listado_actores.html"
+   def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+      context = super().get_context_data(**kwargs)
+      
+      # Obtener personas del modelo y asignarlas al template
+      personas = Persona.manager.filter(actor__isnull=False).distinct().order_by('apellido')
+      context['personas'] = personas
+      return context  

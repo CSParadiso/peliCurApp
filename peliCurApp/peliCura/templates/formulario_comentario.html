@@ -1,0 +1,9 @@
+{# En cada template que quiera usar archivos estáticos, se debe usar el load #}
+{% load static%}
+
+<h4>Crear comentario nuevo: </h4>
+<form method="post" action="{% url 'detalle-pelicula-id' pelicula.id %}">
+  {% csrf_token %}
+  {{ formulario_comentario.as_p }}
+  <button type="submit">Comentar</button>
+</form>

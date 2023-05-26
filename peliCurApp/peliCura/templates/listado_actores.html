@@ -1,0 +1,28 @@
+{% extends 'base_template.html' %}
+
+{% block contenido %}
+
+{% if personas|length > 0 %}
+  <table>
+    <tr>
+      <th>Actor</th>
+      <th>Película/s</th>
+    </tr>
+    {% for persona in personas %}
+      <tr>
+        <td><a href="{% url 'detalle-actor-id' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
+        <td>{% for pelicula in persona.actor.all|dictsort:"anio_realizacion" %}
+              <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
+                {{pelicula.anio_realizacion}} - {{ pelicula.titulo }}</a><br> 
+            {% empty %} <br>
+            {% endfor %}
+        </td>
+      </tr>
+    {% empty %} <br>
+
+    {% endfor %}
+
+  </table>
+{% endif %}
+
+{% endblock %}

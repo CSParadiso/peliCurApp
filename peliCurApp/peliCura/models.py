@@ -1,6 +1,7 @@
 from django.db import models
 from peliCura.managers import *
 from django.core.exceptions import *
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -170,14 +171,16 @@ class Comentario(models.Model):
     _fecha = models.DateTimeField(format("%D-%m-%d %H-%M-%S"), auto_now_add=True) # Fecha de creado el objeto datetime
     # recuperar --> comentario.fecha = datetime.datetime(2023, 5, 20, 22, 55, 4, 393404, tzinfo=datetime.timezone.utc)
     # recupera en string --> comentario.fecha.strftime('%Y-%m') = '2023-05'
-    descripcion = models.TextField(max_length=100)
-    valoracion = models.FloatField() # DEBE SER ENTRE 1 y 5 ---- <input type="number"> y Float
+    descripcion = models.TextField("Comentario", max_length=100)
+    valoracion = models.FloatField("Puntaje",                           # <input type="number"> y Float
+                                   validators = [MinValueValidator(1),  # DEBE SER ENTRE 1
+                                                 MaxValueValidator(5)]) #  y 5  
     pelicula = models.ForeignKey("Pelicula", on_delete=models.DO_NOTHING) 
     # asignación --> comentario = Comentario.objects.create(descripcion="", pelicula=nombreObjectoPelicula)
     # recuperar todos los comentarios:
     # comentarios = [comentario['descripcion'] for comentario in pelicula.comentario_set.values('descripcion')]
     nombre = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField("Correo electrónico")
 
      # Auditar comentario cuando administrador audite los comentarios
     def auditar_comentario(self, state):

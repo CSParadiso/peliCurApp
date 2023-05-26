@@ -10,9 +10,10 @@
     </tr>
     {% for persona in personas %}
       <tr>
-        <td>{{ persona.apellido }}, {{ persona.nombre }}</td>
-        <td>{% for pelicula in persona.director.all %}
-              <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br> 
+        <td><a href="{% url 'detalle-director-id' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
+        <td>{% for pelicula in persona.director.all|dictsort:"anio_realizacion" %}
+              <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
+                {{pelicula.anio_realizacion}} - {{ pelicula.titulo }}</a><br> 
             {% empty %} <br>
             {% endfor %}
         </td>

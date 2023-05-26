@@ -26,8 +26,10 @@ class PersonaManager(models.Manager):
 class ComentarioManager(models.Manager):
    
     # Crear comentario
-    def crear_comentario(self, peli_mentario, descri_mentario, rating):
+    def crear_comentario(self, peli_mentario, correo, name, descri_mentario, rating):
         comentario = self.create(pelicula = peli_mentario, 
+                                 email = correo,
+                                 nombre = name,
                                  descripcion = descri_mentario, 
                                  valoracion = rating)
         return comentario

@@ -25,6 +25,13 @@
       {% empty %} <br>
     {% endfor %}
   </h4>
+
+  {# Incluímos el formulario de los comentarios #}
+  {% include 'formulario_comentario.html'%}
+
+  {# Incluímos los comentarios aprobados de la película #}
+  {% include 'listado_comentarios.html'%}
+
 {% endblock %}
 
 

@@ -14,7 +14,8 @@ body {
                                     var(--white), var(--platinum), var(--indigoDye));
   background-repeat: inherit;*/
   color: var(--UTOrange);
-  font-family: 'Cinzel', 'Courier New', Courier, monospace;
+  /*font-family: 'Cinzel', 'Courier New', Courier, monospace;*/
+  font-family: monospace;
   font-weight: bold;
 }
 

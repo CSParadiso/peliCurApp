@@ -1,0 +1,8 @@
+{# En cada template que quiera usar archivos estáticos, se debe usar el load #}
+{% load static%}
+
+<h4>Comentarios: </h4>
+{% for comentario in pelicula.comentario_set.all %}
+  <li>{{ comentario.nombre }} dice: {{ comentario.descripcion }}</li>
+{% empty %} <p>Sin comentarios aún</p>
+{% endfor %}
