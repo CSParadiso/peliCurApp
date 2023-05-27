@@ -1,5 +1,7 @@
 {% extends 'base_template.html' %}
 
+{% load static %}
+
 {# Comienzo del bloque heredado #} 
 {% block contenido%}
 <div class="contenido">
@@ -16,8 +18,8 @@
         <div class="card text-bg-dark">
           <a href="{% url 'detalle-pelicula-id' pelicula.id %}" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
           <div class="card-img-overlay">
-            <h5 class="card-title" style="color:yellow">{{ pelicula.titulo }}</h5>
-            <p class="card-text" style="color:yellow">{{ pelicula.puntuacion|floatformat:2 }}</p>
+            <h5 class="card-title">{{ pelicula.titulo }}</h5>
+            <p class="card-text">{{ pelicula.puntuacion|floatformat:2 }}</p>
           </div></a>
         </div>    
       </div>

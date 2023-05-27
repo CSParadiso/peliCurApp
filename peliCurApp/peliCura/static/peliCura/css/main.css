@@ -33,6 +33,11 @@ table, th, td {
 }
 */
 
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+}
+
+
   /* Sobreescribir Bootstrap */
   .nav-link{
     color: var(--prussianBlue);

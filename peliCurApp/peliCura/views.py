@@ -19,7 +19,9 @@ class Index(TemplateView):
         page_number = self.request.GET.get("page")
         context["page_obj"] = paginador.get_page(page_number)
         context["peliculas"] = peliculas
-        context['generos'] = Genero.manager.all().order_by('nombre')
+
+        # Asignar al template para poder seleccionar desde barra de navegación
+        context['generoNavBar'] = Genero.manager.all().order_by('nombre')
         return context
 
 # Controlador de página detalle de Película    
@@ -58,6 +60,9 @@ class PeliculaDetalle(TemplateView):
 
         # Añadir al contexto el formulario del modelo
         context['formulario_comentario'] = FormularioComentario()
+
+        # Asignar al template para poder seleccionar desde barra de navegación
+        context['generoNavBar'] = Genero.manager.all().order_by('nombre')
         return context
 
     # Lógica del formulario 
@@ -87,6 +92,25 @@ class PeliculaDetalle(TemplateView):
           context['formulario_comentario'] = formulario
           return self.render_to_response(context)
           
+
+# Controlador de página de listado de Películas
+class PeliculasListado(TemplateView):
+   template_name = 'listado_peliculas.html'
+   def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+      context = super().get_context_data(**kwargs)
+      
+      # Obtener todas las películas
+      peliculas = Pelicula.manager.all().order_by('anio_realizacion', 'titulo')
+
+      # Crear paginador
+      paginador = Paginator(peliculas, 20)
+      page_number = self.request.GET.get("page")
+      context["page_obj"] = paginador.get_page(page_number)
+      context["peliculas"] = peliculas
+
+    # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      return context 
 
 # Controlador de página detalle de Persona  
 class PersonaDetalle(TemplateView):
@@ -121,6 +145,9 @@ class PersonaDetalle(TemplateView):
       
       # Asignar la correspondiente persona al template
       context['persona'] = persona
+
+      # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context 
 
 # Controlador de página de listado de Géneros    
@@ -155,6 +182,9 @@ class GeneroListado(TemplateView):
       # Asignar el correspondiente género y sus películas al template
       context['peliculas'] = peliculas
       context['genero'] = genero
+
+      # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context 
 
 # Controlador de página listado de Directores
@@ -166,6 +196,9 @@ class ListadoDirectores(TemplateView):
       # Obtener personas del modelo y asignarlas al template
       personas = Persona.manager.filter(director__isnull=False).distinct().order_by('apellido')
       context['personas'] = personas
+
+      # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context    
 
 # Controlador de página listado de Actores
@@ -177,4 +210,7 @@ class ListadoActores(TemplateView):
       # Obtener personas del modelo y asignarlas al template
       personas = Persona.manager.filter(actor__isnull=False).distinct().order_by('apellido')
       context['personas'] = personas
+
+      # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context  

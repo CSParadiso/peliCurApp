@@ -14,14 +14,16 @@ body {
                                     var(--white), var(--platinum), var(--indigoDye));
   background-repeat: inherit;*/
   color: var(--UTOrange);
-  font-family: 'Cinzel', 'Courier New', Courier, monospace;
+  /*font-family: 'Cinzel', 'Courier New', Courier, monospace;*/
+  font-family: monospace;
   font-weight: bold;
 }
 
-table {
-  border: 5px solid var(--selectiveYellow);
+table, th, td {
+  border: 2px solid var(--selectiveYellow);
   border-collapse: collapse;
-  background-color: var(--blueGreen);
+  text-align: center;
+  padding: 5px 5px;
 }
 
 /* Clases */
@@ -30,6 +32,12 @@ table {
   background-color: var(--blueGreen);
 }
 */
+
+a:link, a:visited a:hover, a:active {
+  text-decoration: none;
+  color: var(--selectiveYellow)
+}
+
 
   /* Sobreescribir Bootstrap */
   .nav-link{

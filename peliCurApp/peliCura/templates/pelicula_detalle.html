@@ -1,12 +1,16 @@
 {% extends 'base_template.html' %}
 
+{% load static %}
+
+{% load filtros_custom %}
+
 {% block contenido %}
   <h4>Título: {{ pelicula.titulo }}</h4>
   <h4>Puntuación: {{ pelicula.puntuacion|floatformat:2 }}</h4>  
   <img src="{{ pelicula.poster.url }}" width="30%" height="auto"/>  
   <h4>Resumen: {{ pelicula.resumen }}</h4>
   <h4>Año realización: {{ pelicula.anio_realizacion }}</h4>  
-  <h4>Duración: {{ pelicula.duracion }}</h4>  
+  <h4>Duración: {{ pelicula.duracion|humanizar_timedelta }}</h4>  
   <h4>Género/s: 
     {% for genero in generos %}
       <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a>

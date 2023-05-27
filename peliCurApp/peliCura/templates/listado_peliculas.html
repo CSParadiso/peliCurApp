@@ -1,0 +1,33 @@
+{% extends 'base_template.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+{% for pelicula in page_obj %}
+    {# Each "pelicula" is a Pelicula model object. #}
+    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.anio_realizacion }} -
+           {{ pelicula.titulo|upper }} - 
+           {{ pelicula.puntuacion|floatformat:2 }}</a></li>
+{% empty %} <br>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previa</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

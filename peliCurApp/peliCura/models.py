@@ -162,7 +162,7 @@ class Comentario(models.Model):
         (ACEPTADO, "publicado"),
         (CENSURADO, "censurado"), 
     ]
-    _estado = models.CharField(
+    estado = models.CharField(
         max_length = 1,
         choices = ESTADO_COMENTARIO_CHOICES,
         default = ESCRITO,
