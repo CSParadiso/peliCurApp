@@ -1,10 +1,11 @@
 {# En cada template que quiera usar archivos estáticos, se debe usar el load #}
 {% load static%}
-{# Cargar los filtros custom que se han creado #}
-{% load filtros_custom%}
+
 
 <h4>Comentarios: </h4>
-{% for comentario in pelicula.comentario_set.all|filtrar_estado:"A" %}
-    <li>{{ comentario.nombre }} dice: {{ comentario.descripcion }}</li>
+{% for comentario in pelicula.comentario_set.all %}
+    {% if comentario.estado == "A" %}
+      <li>{{ comentario.nombre }} dice: {{ comentario.descripcion }}</li>
+    {% endif %}
 {% empty %} <p>Sin comentarios aún</p>
 {% endfor %}

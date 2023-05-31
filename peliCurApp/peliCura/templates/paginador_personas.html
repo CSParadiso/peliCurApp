@@ -5,22 +5,26 @@
 {% block contenido %}
 
 {% if page_obj|length > 0 %}
-  <h2>{{ genero.nombre }}</h2>
   <table>
     <tr>
-      <th>Año</th>
-      <th>Película</th>
-      <th>Valoración</th>
+      <th>{{ rol }}</th>
+      <th>Película/s</th>
     </tr>
-    {% else %}
-    <p>Aún no existen películas de este género.</p>
 {% endif %}
-
-{% for pelicula in page_obj %}
+{% for persona in page_obj %}
     <tr>
-      <td>{{ pelicula.anio_realizacion|date:"Y" }}</td> 
-      <td><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo }}</a></td> 
-       <td>{{ pelicula.puntuacion|floatformat:2 }}</td>
+      <td><a href="{% url 'detalle-persona' rol persona.id %}">{{ persona.id }}</a></td>
+
+          {{ persona.apellido }}, {{ persona.nombre }}</a>
+      </td>
+      <td>{% for pelicula in persona.actor.all %}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
+            {{ pelicula.anio_realizacion }} - 
+            {{ pelicula.titulo|upper }} - 
+            {{ pelicula.puntuacion|floatformat:2 }}</a><br>
+           {% empty %} <br>
+           {% endfor %}
+      </td>
     </tr>
 {% empty %} <br>
 {% endfor %}

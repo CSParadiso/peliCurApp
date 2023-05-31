@@ -183,6 +183,12 @@ class GeneroListado(TemplateView):
       context['peliculas'] = peliculas
       context['genero'] = genero
 
+      # Definir paginator y asignarle la página al template
+      paginador = Paginator(peliculas, 25)
+      page_number = self.request.GET.get("page")
+      page_obj = paginador.get_page(page_number)
+      context['page_obj'] = page_obj
+
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context 
@@ -190,6 +196,7 @@ class GeneroListado(TemplateView):
 # Controlador de página listado de Directores
 class ListadoDirectores(TemplateView):
    template_name = "listado_directores.html"
+   #template_name = "paginador_personas.html"
    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
       context = super().get_context_data(**kwargs)
       
@@ -197,8 +204,15 @@ class ListadoDirectores(TemplateView):
       personas = Persona.manager.filter(director__isnull=False).distinct().order_by('apellido')
       context['personas'] = personas
 
+      # Definir paginator y asignarle la página al template
+      paginador = Paginator(personas, 25)
+      page_number = self.request.GET.get("page")
+      page_obj = paginador.get_page(page_number)
+      context['page_obj'] = page_obj
+
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      #context['rol'] = "director"
       return context    
 
 # Controlador de página listado de Actores
@@ -211,6 +225,59 @@ class ListadoActores(TemplateView):
       personas = Persona.manager.filter(actor__isnull=False).distinct().order_by('apellido')
       context['personas'] = personas
 
+      # Definir paginator y asignarle la página al template
+      paginador = Paginator(personas, 25)
+      page_number = self.request.GET.get("page")
+      page_obj = paginador.get_page(page_number)
+      context['page_obj'] = page_obj
+
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context  
+   
+# Controlador para crear Películas
+class CrearPelicula(CreateView):
+   model = Pelicula
+   fields = ['titulo', 'resumen', 'anio_realizacion', 'duracion', 'genero', 
+             'director', 'actor', 'poster']   
+   template_name = 'pelicula_form.html'
+   success_url = reverse_lazy('detalle-pelicula-id')
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
+   
+   def get_success_url(self):
+        return reverse('detalle-pelicula-id', kwargs={'identificador': self.object.pk})
+   
+#Controlador para crear Personas
+class CrearPersona(CreateView):
+   model = Persona
+   fields = ['nombre', 'apellido', 'nombre_artistico', 
+             'nacionalidad', 'foto', 'fecha_nacimiento', 'biografia']   
+   template_name = 'persona_form.html'
+   success_url = reverse_lazy('detalle-director-id') # crear vista "detalle-persona-id"
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
+   
+   def get_success_url(self):
+        return reverse('detalle-director-id', kwargs={'identificador': self.object.pk})   
+   
+#Controlador para crear Géneros
+class CrearGenero(CreateView):
+   model = Genero
+   fields = ['nombre']   
+   template_name = 'genero_form.html'
+   success_url = reverse_lazy('genero-listado-id') 
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
+   
+   def get_success_url(self):
+        return reverse('genero-listado-id', kwargs={'identificador': self.object.pk})      

@@ -4,13 +4,23 @@
 
 {% block contenido %}
 
+{% if page_obj|length > 0 %}
+  <table>
+    <tr>
+      <th>Año</th>
+      <th>Película/s</th>
+      <th>Puntuación</th>
+    </tr>
+{% endif %}
 {% for pelicula in page_obj %}
-    {# Each "pelicula" is a Pelicula model object. #}
-    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.anio_realizacion }} -
-           {{ pelicula.titulo|upper }} - 
-           {{ pelicula.puntuacion|floatformat:2 }}</a></li>
+    <tr>
+      <td>{{ pelicula.anio_realizacion|date:"Y" }}</td>
+      <td><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo|upper }}</a></td> 
+      <td>{{ pelicula.puntuacion|floatformat:2 }}<br>
+    </tr>
 {% empty %} <br>
 {% endfor %}
+  </table>
 
 <div class="pagination">
     <span class="step-links">

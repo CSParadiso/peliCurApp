@@ -15,15 +15,15 @@
     {% for pelicula in page_obj %}
       <div class="col">
         {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
-        <div class="card text-bg-dark">
-          <a href="{% url 'detalle-pelicula-id' pelicula.id %}" target="_self"><img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
-          <div class="card-img-overlay">
+        <div class="card" style="width: 18rem;">
+          <a href="{% url 'detalle-pelicula-id' pelicula.id %}"><img src="{{ pelicula.poster.url }}" class="card-img-top" alt="Póster de la película"/>
+          </a>
+          <div class="card-body">
             <h5 class="card-title">{{ pelicula.titulo }}</h5>
             <p class="card-text">{{ pelicula.puntuacion|floatformat:2 }}</p>
-          </div></a>
-        </div>    
+          </div>
+        </div>
       </div>
-
       {# Si no hay películas #}
     {% empty %}
       <p>No existen películas para mostrar</p>

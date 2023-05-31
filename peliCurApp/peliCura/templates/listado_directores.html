@@ -4,27 +4,50 @@
 
 {% block contenido %}
 
-{% if personas|length > 0 %}
+{% if page_obj|length > 0 %}
   <table>
     <tr>
-      <th>Director/a</th>
+      <th>Director</th>
       <th>Película/s</th>
     </tr>
-    {% for persona in personas %}
-      <tr>
-        <td><a href="{% url 'detalle-director-id' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
-        <td>{% for pelicula in persona.director.all|dictsort:"anio_realizacion" %}
-              <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
-                {{pelicula.anio_realizacion}} - {{ pelicula.titulo }}</a><br> 
-            {% empty %} <br>
-            {% endfor %}
-        </td>
-      </tr>
-    {% empty %} <br>
-
-    {% endfor %}
-
-  </table>
 {% endif %}
+{% for persona in page_obj %}
+    <tr>
+      <td><a href="{% url 'detalle-director-id' persona.id %}">
+          {{ persona.apellido }}, {{ persona.nombre }}
+          {% if persona.nombre_artistico %}
+            "{{ persona.nombre_artistico }}"
+          {% endif %}</a>
+      </td>
+      <td>{% for pelicula in persona.director.all %}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
+            {{ pelicula.anio_realizacion|date:"Y" }} - 
+            {{ pelicula.titulo|upper }} - 
+            {{ pelicula.puntuacion|floatformat:2 }}</a><br>
+           {% empty %} <br>
+           {% endfor %}
+      </td>
+    </tr>
+{% empty %} <br>
+{% endfor %}
+  </table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previa</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 {% endblock %}

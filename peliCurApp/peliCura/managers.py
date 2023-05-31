@@ -54,16 +54,13 @@ class PeliculaManager(models.Manager):
         return timedelta(minutes=minutos)
 
     # Crear película
-    # pelicula = Pelicula.manager.crear_pelicula("El año de la bestia equilátera", 
-    #                                            "Periplo de un hombre solo en el Valle de la Muerte",
-    #                                             1987, 78, [genero, genero_uno], personaX,
-    #                                             personaX)
-    def crear_pelicula(self, title, abstract, year, minutes, genre, directed_by, acted_by):
+    def crear_pelicula(self, title, abstract, year, minutes, genre, directed_by, acted_by, picture):
         pelicula = self.create(titulo = title,
                               resumen = abstract, 
                               anio_realizacion = year, 
                               duracion = self.crear_duracion(minutes), 
-                              puntuacion = 0)
+                              puntuacion = 0, 
+                              poster = picture)
         # agregar género
         pelicula.genero.add(genre) # agregar género a película (a través del int(id))
         # agregar director

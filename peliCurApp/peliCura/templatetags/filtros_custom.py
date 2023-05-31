@@ -2,9 +2,9 @@ from django import template
 
 register = template.Library()
 
-@register.filter
-def filtrar_estado(comentario, estado):
-    return comentario.filter(estado = estado)
+# @register.filter
+# def filtrar_estado(comentario, estado):
+#     return comentario.filter(estado = estado)
 
 @register.filter
 def humanizar_timedelta(timedelta):

@@ -2,6 +2,10 @@ from django.db import models
 from peliCura.managers import *
 from django.core.exceptions import *
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse, reverse_lazy
+from datetime import datetime
+from django_countries.fields import CountryField
+
 
 
 # Create your models here.
@@ -98,29 +102,47 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Persona(models.Model):
     manager = PersonaManager()
-    nombre = models.CharField(max_length=70) # <input type="text"> en HTML
-    apellido = models.CharField(max_length=70) 
-    nombre_artistico = models.CharField(max_length=70)
-    nacionalidad = models.CharField(max_length=70)
-    foto = models.ImageField(upload_to='fotos_personas', null=True) # form widget es ClearableFileInput
+    nombre = models.CharField("Nombre", max_length=70) # <input type="text"> en HTML
+    apellido = models.CharField("Apellido", max_length=70) 
+    nombre_artistico = models.CharField("Nombre artístico", max_length=70, null=True)
+    nacionalidad = CountryField("Nacionalidad", max_length=70)
+    foto = models.ImageField("Foto", upload_to='fotos_personas', null=True) # form widget es ClearableFileInput
                                # Hereda todo de FileField. <input type="file" ...> en HTML
-    anio_nacimiento = models.IntegerField() # Solo el año
-    biografia = models.TextField(max_length=300)
+    fecha_nacimiento = models.DateField("Fecha de nacimiento") # Solo el año
+    biografia = models.TextField("Biografía", max_length=300)
+    
+    # Definir para usar formularios de CreateView
+    def get_absolute_url(self):
+        return reverse("detalle-pelicula-id", kwargs={'pk':self.pk})
+    
+    # Redefinimos el método __str__
+    def __str__(self) -> str:
+        if self.nombre_artistico:
+            return f"{self.nombre} '{self.nombre_artistico}' {self.apellido}"  
+        else:
+          return f"{self.nombre} {self.apellido}" 
+
 
 
 
 class Genero(models.Model):
     manager = GeneroManager()
-    nombre = models.CharField(max_length=20, unique=True)
+    nombre = models.CharField("Nombre Género", max_length=20, unique=True)
+    # Definir para usar formularios de CreateView
+    def get_absolute_url(self):
+        return reverse("detalle-pelicula-id", kwargs={'pk':self.pk})
 
+    # Redefinimos el método __str__
+    def __str__(self) -> str:
+      return self.nombre  
 
 
 class Pelicula(models.Model):
     # recuperar --> peliculax = Pelicula.manager.get(id=x)
     manager = PeliculaManager()
-    titulo = models.CharField(max_length=100) # <input type="text"> en HTML
-    resumen = models.TextField() # <textarea> en HTML
-    anio_realizacion = models.IntegerField() # solo el año
+    titulo = models.CharField("Titulo", max_length=100) # <input type="text"> en HTML
+    resumen = models.TextField("Resumen", max_length=200) # <textarea> en HTML
+    anio_realizacion = models.DateField("Año estreno") # solo el año
     duracion = models.DurationField() # timedelta(days, seconds, miliseconds) en Python
     # asignación --> duracion = timedelta(minutes=X)
     # horas = pelicula.duracion.seconds // 60
@@ -140,8 +162,8 @@ class Pelicula(models.Model):
     #                       print(pelicula.actor.values('nombre_artistico')[i]['nombre_artistico'], end=" ")
     #                       = Lillaed Quique
     # retrieve all --> list(pelicula.actor.values_list('nombre_artistico', flat=True)) = ['Lillard', 'Quique']
-    puntuacion = models.FloatField() # <input type="number"> y Float
-    poster = models.ImageField(upload_to='posters_peliculas', null=True)
+    puntuacion = models.FloatField("Puntuacion", default=0) # <input type="number"> y Float
+    poster = models.ImageField("Póster", upload_to='posters_peliculas', null=True)
 
     # Actualizar puntuación película
     def agregar_puntuacion(self, valoracion):
@@ -151,6 +173,16 @@ class Pelicula(models.Model):
         self.puntuacion = (self.puntuacion + valoracion) / nro_puntuaciones
         self.save()
         return self.puntuacion
+    
+    # Definir para usar formularios de CreateView
+    def get_absolute_url(self):
+        return reverse("detalle-pelicula-id", kwargs={'pk':self.pk})
+    
+    # Redefinimos el método __str__
+    def __str__(self) -> str:
+      return self.titulo  
+    
+    
 
 
 class Comentario(models.Model):
@@ -162,13 +194,14 @@ class Comentario(models.Model):
         (ACEPTADO, "publicado"),
         (CENSURADO, "censurado"), 
     ]
-    estado = models.CharField(
+    estado = models.CharField("Estado", 
         max_length = 1,
         choices = ESTADO_COMENTARIO_CHOICES,
         default = ESCRITO,
     )
     manager = ComentarioManager()
-    _fecha = models.DateTimeField(format("%D-%m-%d %H-%M-%S"), auto_now_add=True) # Fecha de creado el objeto datetime
+    _fecha = models.DateTimeField("Fecha", 
+                                  default=datetime.now)  # Fecha de creado el objeto datetime
     # recuperar --> comentario.fecha = datetime.datetime(2023, 5, 20, 22, 55, 4, 393404, tzinfo=datetime.timezone.utc)
     # recupera en string --> comentario.fecha.strftime('%Y-%m') = '2023-05'
     descripcion = models.TextField("Comentario", max_length=100)
@@ -179,7 +212,7 @@ class Comentario(models.Model):
     # asignación --> comentario = Comentario.objects.create(descripcion="", pelicula=nombreObjectoPelicula)
     # recuperar todos los comentarios:
     # comentarios = [comentario['descripcion'] for comentario in pelicula.comentario_set.values('descripcion')]
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField("Nombre usuario", max_length=100)
     email = models.EmailField("Correo electrónico")
 
      # Auditar comentario cuando administrador audite los comentarios
@@ -195,5 +228,9 @@ class Comentario(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.pelicula.agregar_puntuacion(self.valoracion)
+
+    # Redefinimos el método __str__
+    def __str__(self) -> str:
+      return self.descripcion
 
 

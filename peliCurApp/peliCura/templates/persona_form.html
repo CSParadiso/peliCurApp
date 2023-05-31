@@ -1,0 +1,26 @@
+{% extends 'base_template.html' %}
+ 
+{% load static %}
+
+{% block contenido %}
+<form enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %}
+  <table>
+    {% for field in form %}
+      <tr>
+        <th>{{ field.label_tag }}</th>
+        <td>
+          {% if field.name == 'fecha_nacimiento' %}
+          <input type="date" name="{{ field.name }}" value="{{ field.value }}">
+          {% else %}
+            {{ field }}
+          {% endif %}
+          {{ field.errors }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <input type="submit" value="Crear Persona"/>
+</form>
+
+{% endblock %}

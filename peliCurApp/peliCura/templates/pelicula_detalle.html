@@ -8,24 +8,34 @@
   <h4>Título: {{ pelicula.titulo }}</h4>
   <h4>Puntuación: {{ pelicula.puntuacion|floatformat:2 }}</h4>  
   <img src="{{ pelicula.poster.url }}" width="30%" height="auto"/>  
-  <h4>Resumen: {{ pelicula.resumen }}</h4>
-  <h4>Año realización: {{ pelicula.anio_realizacion }}</h4>  
-  <h4>Duración: {{ pelicula.duracion|humanizar_timedelta }}</h4>  
-  <h4>Género/s: 
+  <h4>Resumen:<br>{{ pelicula.resumen }}</h4>
+  <h4>Año realización:<br>{{ pelicula.anio_realizacion }}</h4>  
+  <h4>Duración:<br>{{ pelicula.duracion|humanizar_timedelta }}</h4>  
+  <h4>Género/s:<br> 
     {% for genero in generos %}
-      <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a>
+      <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a><br>
       {% empty %} <br>
     {% endfor %}
   </h4>
-  <h4>Director/es: 
+  <h4>Director/es:<br>
     {% for director in directores %} 
-      <a href="{% url 'detalle-director-id' director.id %}" target="_self">{{ director.nombre_artistico }}</a>
+      <a href="{% url 'detalle-director-id' director.id %}" target="_self">
+        {{ director.nombre }} 
+        {% if director.nombre_artistico %}
+          "{{ director.nombre_artistico }}"
+        {% endif %}
+        {{ director.apellido }}</a><br> 
       {% empty %} <br>
     {% endfor %}
   </h4>
-  <h4>Actor/es: 
+  <h4>Actor/es:<br> 
     {% for actor in actores %}
-      <a href="{% url 'detalle-actor-id' actor.id %}" target="_self">{{ actor.nombre_artistico }}</a>
+      <a href="{% url 'detalle-actor-id' actor.id %}" target="_self">
+        {{ actor.nombre }} 
+        {% if actor.nombre_artistico %}
+          "{{ actor.nombre_artistico }}"
+        {% endif %}
+        {{ actor.apellido }}</a><br>
       {% empty %} <br>
     {% endfor %}
   </h4>

@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block contenido %}
-  <h4>Foto: {{ persona.foto }}</h4>
+  {% if persona.foto %}
+    <h4><img src="{{ persona.foto.url }}" alt="Foto de la persona" 
+         width="25%" height="auto"></h4>
+  {% endif %}
   <h4>Nombre: {{ persona.nombre }}</h4>
   <h4>Apellido: {{ persona.apellido }}</h4>
   <h4>Nombre Artístico: {{ persona.nombre_artistico }}</h4>
