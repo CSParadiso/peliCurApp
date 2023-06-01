@@ -8,9 +8,9 @@
   <h4>Título: {{ pelicula.titulo }}</h4>
   <h4>Puntuación: {{ pelicula.puntuacion|floatformat:2 }}</h4>  
   <img src="{{ pelicula.poster.url }}" width="30%" height="auto"/>  
-  <h4>Resumen:<br>{{ pelicula.resumen }}</h4>
-  <h4>Año realización:<br>{{ pelicula.anio_realizacion }}</h4>  
-  <h4>Duración:<br>{{ pelicula.duracion|humanizar_timedelta }}</h4>  
+  <h4>Resumen:<br>{{ pelicula.sinopsis }}</h4>
+  <h4>Año realización:<br>{{ pelicula.anio_realizacion|date:"Y" }}</h4>  
+  <h4>Duración:<br>{{ pelicula.duracion }} minutos</h4>  
   <h4>Género/s:<br> 
     {% for genero in generos %}
       <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a><br>

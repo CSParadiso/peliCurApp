@@ -1,0 +1,24 @@
+{% extends 'base_template.html' %}
+
+{% load static %}
+
+{% block contenido %}
+<table>
+  <tr>
+    <th>Fecha</th>
+    <th>Estado</th>
+    <th>Correo electrónico</th>
+    <th>Comentario</th>
+  </tr>
+{% for comentario in comentarios %}
+<tr>
+  <td>{{ comentario.fecha|date:"Y/m/d/H/i/s" }}</td>
+  <td><a href={% url 'editar-comentario' comentario.id %}>{{ comentario.estado }}</a></td>
+  <td>{{ comentario.email }}</td>
+  <td>{{ comentario.descripcion }}</td>
+</tr>  
+{% empty %} <p>No hay comentarios que auditar aún</p>
+{% endfor %}
+</table>
+
+{% endblock %}

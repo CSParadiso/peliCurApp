@@ -3,7 +3,7 @@ from peliCura.managers import *
 from django.core.exceptions import *
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse, reverse_lazy
-from datetime import datetime
+from datetime import datetime, timedelta
 from django_countries.fields import CountryField
 
 
@@ -104,7 +104,7 @@ class Persona(models.Model):
     manager = PersonaManager()
     nombre = models.CharField("Nombre", max_length=70) # <input type="text"> en HTML
     apellido = models.CharField("Apellido", max_length=70) 
-    nombre_artistico = models.CharField("Nombre artístico", max_length=70, null=True)
+    nombre_artistico = models.CharField("Nombre artístico", max_length=70, null=True, blank=True)
     nacionalidad = CountryField("Nacionalidad", max_length=70)
     foto = models.ImageField("Foto", upload_to='fotos_personas', null=True) # form widget es ClearableFileInput
                                # Hereda todo de FileField. <input type="file" ...> en HTML
@@ -141,9 +141,12 @@ class Pelicula(models.Model):
     # recuperar --> peliculax = Pelicula.manager.get(id=x)
     manager = PeliculaManager()
     titulo = models.CharField("Titulo", max_length=100) # <input type="text"> en HTML
-    resumen = models.TextField("Resumen", max_length=200) # <textarea> en HTML
+    sinopsis = models.TextField("Sinospis", max_length=500) # <textarea> en HTML
     anio_realizacion = models.DateField("Año estreno") # solo el año
-    duracion = models.DurationField() # timedelta(days, seconds, miliseconds) en Python
+    duracion = models.IntegerField(validators=[
+        MinValueValidator(1),
+        MaxValueValidator(1240) # 1240 minutos = 24 hs de duración
+    ]) # timedelta(days, seconds, miliseconds) en Python
     # asignación --> duracion = timedelta(minutes=X)
     # horas = pelicula.duracion.seconds // 60
     # minutos_restantes = pelicula.duracion.seconds / 60 % 60
@@ -200,7 +203,7 @@ class Comentario(models.Model):
         default = ESCRITO,
     )
     manager = ComentarioManager()
-    _fecha = models.DateTimeField("Fecha", 
+    fecha = models.DateTimeField("Fecha", 
                                   default=datetime.now)  # Fecha de creado el objeto datetime
     # recuperar --> comentario.fecha = datetime.datetime(2023, 5, 20, 22, 55, 4, 393404, tzinfo=datetime.timezone.utc)
     # recupera en string --> comentario.fecha.strftime('%Y-%m') = '2023-05'
@@ -228,6 +231,10 @@ class Comentario(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.pelicula.agregar_puntuacion(self.valoracion)
+
+    # Definir para usar formularios de CreateView
+    def get_absolute_url(self):
+        return reverse("detalle-pelicula-id", kwargs={'pk':self.pelicula.pk})
 
     # Redefinimos el método __str__
     def __str__(self) -> str:

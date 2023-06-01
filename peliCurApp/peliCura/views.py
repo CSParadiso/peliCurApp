@@ -6,6 +6,7 @@ from peliCura.models import *
 from django.core.paginator import Paginator
 from django.http import Http404
 from .forms import FormularioComentario
+from django.db.models import Q
 
 # Create your views here.
 
@@ -238,7 +239,7 @@ class ListadoActores(TemplateView):
 # Controlador para crear Películas
 class CrearPelicula(CreateView):
    model = Pelicula
-   fields = ['titulo', 'resumen', 'anio_realizacion', 'duracion', 'genero', 
+   fields = ['titulo', 'sinopsis', 'anio_realizacion', 'duracion', 'genero', 
              'director', 'actor', 'poster']   
    template_name = 'pelicula_form.html'
    success_url = reverse_lazy('detalle-pelicula-id')
@@ -250,6 +251,27 @@ class CrearPelicula(CreateView):
    
    def get_success_url(self):
         return reverse('detalle-pelicula-id', kwargs={'identificador': self.object.pk})
+
+# Controlador para editar Películas
+class EditarPelicula(UpdateView):
+   model = Pelicula
+   fields = ['titulo', 'sinopsis', 'anio_realizacion', 'duracion', 'genero', 
+             'director', 'actor', 'poster']  
+   template_name = "pelicula_form.html" 
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
+   
+   def get_success_url(self):
+        return reverse('detalle-pelicula-id', kwargs={'identificador': self.object.pk})
+
+# Controlador para borrar Películas
+class BorrarPelicula(DeleteView):
+   model = Pelicula
+   template_name = 'pelicula_confirm_delete.html'
+   success_url = reverse_lazy('peliculas-listado')   
    
 #Controlador para crear Personas
 class CrearPersona(CreateView):
@@ -266,7 +288,29 @@ class CrearPersona(CreateView):
    
    def get_success_url(self):
         return reverse('detalle-director-id', kwargs={'identificador': self.object.pk})   
+
+# Controlador para editar Personas
+class EditarPersona(UpdateView):
+   model = Persona
+   fields = ['nombre', 'apellido', 'nombre_artistico', 
+             'nacionalidad', 'foto', 'fecha_nacimiento', 'biografia']  
+   template_name = "persona_form.html" 
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
    
+   def get_success_url(self):
+        return reverse('detalle-director-id', kwargs={'identificador': self.object.pk})
+
+# Controlador para borrar Personas
+class BorrarPersona(DeleteView):
+   model = Persona
+   template_name = 'persona_confirm_delete.html'
+   success_url = reverse_lazy('peliculas-listado')   
+   
+
 #Controlador para crear Géneros
 class CrearGenero(CreateView):
    model = Genero
@@ -280,4 +324,39 @@ class CrearGenero(CreateView):
      return response
    
    def get_success_url(self):
-        return reverse('genero-listado-id', kwargs={'identificador': self.object.pk})      
+        return reverse('genero-listado-id', kwargs={'identificador': self.object.pk})  
+
+# Controlador para borrar Género
+class BorrarGenero(DeleteView):
+   model = Genero
+   template_name = 'genero_confirm_delete.html'
+   success_url = reverse_lazy('main.page')   
+
+# Controlador para auditar Comentarios
+class AuditarComentario(TemplateView):
+   template_name = "auditar_comentario.html"
+   def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+      context = super().get_context_data(**kwargs)
+
+      # Obtener los comentarios con el valor default ("Escrito") y asignarlo al template
+      comentarios = Comentario.manager.filter(Q(estado = "E")).order_by('-fecha')
+      context['comentarios'] = comentarios
+
+      # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      return context
+   
+# Controlador para editar Comentario
+class EditarComentario(UpdateView):
+   model = Comentario
+   fields = ['estado']  
+   template_name = "formulario_comentario.html" 
+
+   def form_valid(self, form):
+     response = super().form_valid(form)
+     self.object.save()
+     return response
+   
+   def get_success_url(self):
+        return reverse('auditar-comentario')   
+   

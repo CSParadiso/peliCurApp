@@ -12,7 +12,9 @@
         <th>{{ field.label_tag }}</th>
         <td>
           {% if field.name == 'anio_realizacion' %}
-          <input type="date" name="{{ field.name }}" value="{{ field.value }}">
+            <input type="date" name="{{ field.name }}" value="{{ field.value }}">
+          {% elif field.name == 'duracion' %}
+            <input type="number" name="{{ field.name }}" value="{{ field.value }}">
           {% else %}
             {{ field }}
           {% endif %}
@@ -21,8 +23,7 @@
       </tr>
     {% endfor %}
   </table>
-  <input type="submit" value="Crear Película"/>
+  <input type="submit" value="Guardar Película"/>
 </form>
-
 
 {% endblock %}

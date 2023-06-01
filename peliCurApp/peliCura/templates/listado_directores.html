@@ -14,10 +14,7 @@
 {% for persona in page_obj %}
     <tr>
       <td><a href="{% url 'detalle-director-id' persona.id %}">
-          {{ persona.apellido }}, {{ persona.nombre }}
-          {% if persona.nombre_artistico %}
-            "{{ persona.nombre_artistico }}"
-          {% endif %}</a>
+          {{ persona.apellido }}, {{ persona.nombre }}</a>
       </td>
       <td>{% for pelicula in persona.director.all %}
             <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
@@ -28,7 +25,7 @@
            {% endfor %}
       </td>
     </tr>
-{% empty %} <br>
+{% empty %}<p>-- No existen películas para mostrar --</p>
 {% endfor %}
   </table>
 

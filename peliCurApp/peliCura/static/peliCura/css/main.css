@@ -2,19 +2,15 @@
 :root {
   --skyBlue: #8ecae6; 
   --blueGreen: #219ebc; 
-  --prussianBlue: #023047; /* Fuentes */ 
-  --selectiveYellow: #ffb703;  /* Color de fondo */
-  --UTOrange: #fb8500;
+  --prussianBlue: #023047; /* Color de fondo */
+  --selectiveYellow: #ffb703;  
+  --UTOrange: #fb8500;/* Fuentes */ 
 }
 
 /* Elementos */
 body {
   background-color: var(--prussianBlue);
-  /*background-image: linear-gradient(to bottom right, var(--jet), var(--caribbeanCurrent), 
-                                    var(--white), var(--platinum), var(--indigoDye));
-  background-repeat: inherit;*/
-  color: var(--UTOrange);
-  /*font-family: 'Cinzel', 'Courier New', Courier, monospace;*/
+  color: var(--selectiveYellow);
   font-family: monospace;
   font-weight: bold;
 }
@@ -58,6 +54,11 @@ a:link, a:visited, a:hover, a:active {
 
   .container-fluid { /* Color de fondo del contenedor interno de la barra de navegación */
     background-color: var(--skyBlue);
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
   }
 
   .col:hover {
