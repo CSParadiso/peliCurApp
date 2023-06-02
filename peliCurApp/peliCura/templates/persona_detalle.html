@@ -3,33 +3,53 @@
 {% load static %}
 
 {% block contenido %}
-  {% if persona.foto %}
-    <h4><img src="{{ persona.foto.url }}" alt="Foto de la persona" 
-         width="25%" height="auto"></h4>
-  {% endif %}
-  <h4>Nombre: {{ persona.nombre }}</h4>
-  <h4>Apellido: {{ persona.apellido }}</h4>
-  {%if persona.nombre_artistico%}
-    <h4>Nombre Artístico: {{ persona.nombre_artistico }}</h4>
-  {% endif %}
-  <h4>Nacionalidad: <img src="{{ persona.nacionalidad.flag }}"> {{ persona.nacionalidad.name }}</h4>
-  <h4>Nacimiento: {{ persona.fecha_nacimiento|date:"d-m-Y" }}</h4>
-  <h4>Biografía: {{ persona.biografia }}</h4>
-  {% if dirigidas|length > 0 %}
-  <h4>Dirige en: 
-    {% for pelicula in dirigidas %}
-    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a></li>
-    {% empty %} <br>
-    {% endfor %}
-  {% endif %}
-  </h4>
+<div class="card border-success" style="max-width: 80vw;">
+  <div class="card-header bg-transparent border-success">
+    {{ persona.nombre }}
+    {%if persona.nombre_artistico%}
+      "{{ persona.nombre_artistico }}"
+    {% endif %}
+    {{ persona.apellido }}
+  </div>
+  <div class="card-body text-success">
+      <img src="{{ persona.foto.url }}" class="card-img" alt="Foto de la persona">
+  </div>
+  <div class="card-footer bg-transparent border-success">
+    <img src="{{ persona.nacionalidad.flag }}"> {{ persona.nacionalidad.name }}
+  </div>
+</div>  
+
+<div class="card border-success" style="max-width: 80vw;">
+  <div class="card-header bg-transparent border-success">
+    {{ persona.fecha_nacimiento|date:"d-m-Y" }}
+  </div>
+  <div class="card-body text-success">
+    {{ persona.biografia }}
+  </div>
+  <div class="card-footer bg-transparent border-success">
+    {% if dirigidas|length > 0 %}
+      Dirige en: 
+        {% for pelicula in dirigidas %}
+          <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >-{{ pelicula.titulo }} </a>
+        {% empty %}
+        {% endfor %}
+    {% endif %}
   {% if actuadas|length > 0 %}
-  <h4>Actúa en: 
+  Actúa en: 
     {% for pelicula in actuadas %}
-    <li><a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a></li>
-    {% empty %} <br>
+    <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >-{{ pelicula.titulo }} </a>
+    {% empty %} 
     {% endfor %}
   {% endif %}
+  </div>
+</div>  
+
+  
+  
+  
+  
+  </h4>
+  
   </h4>
 
   

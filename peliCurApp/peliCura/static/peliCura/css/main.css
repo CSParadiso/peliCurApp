@@ -24,16 +24,10 @@ table, th, td {
 }
 
 /* Clases */
-/*
-.contenido {
-  background-color: var(--blueGreen);
-}
-*/
 
 a:link, a:visited, a:hover, a:active {
   text-decoration: none;
 }
-
 
   /* Sobreescribir Bootstrap */
   .nav-link{
@@ -56,15 +50,81 @@ a:link, a:visited, a:hover, a:active {
     background-color: var(--skyBlue);
   }
 
-  .card {
+  /* .container {
+    border: 10px solid red; 
+  } */
+
+  .text-center {
+    /* border: 10px solid black; */
     width: 100%;
-    height: 100%;
   }
+
+  /* .row {
+    border: 5px solid red;  
+  } */
+
+  .row-cols-3 {
+    border: 2px solid orange;
+    box-sizing: border-box;
+  }
+
+  .col {
+    float: left;
+    width: 33,33%;
+    height: auto;
+    border: 1px solid yellow;
+    margin-bottom: 1vw;
+  }
+
+  .card {
+    /* border: 10px solid white; */
+    margin: auto;
+    display: block;
+    border: 5px solid #023047;
+    /* border-radius: 50% 50% 50% 50%; */
+  }
+ 
+  .card-img {
+    width: 100%;
+    height: auto;
+    border: 5px solid var(--selectiveYellow);
+  }
+
+  .card-header, .card-footer, .card-body {
+    text-align: center;
+  }
+/*
+  .card-img-overlay h5, p {
+    border: 5px solid black;
+    background-color: rgba(227, 13, 13, 0.5);
+    color: yellow;
+    width: fit-content;
+    padding: 0.3vw;
+    margin: 0%;
+  } */
 
   .col:hover {
     transform: scale(1.1, 1.1);
     z-index: 18;
   }
 
+  .formulario-comentario, .listado-comentarios {
+    max-width: 80vw;
+    margin: auto;
+    display: block;
+    text-align: center;
+  }
+
+  .formulario-comentario table{
+    margin: auto;
+    display: block;
+    text-align: center;
+  }
+
+  .listado-comentarios {
+    border: 2px solid var(--selectiveYellow);
+  }
+
+  
 /* Ids */
 
