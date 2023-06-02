@@ -32,5 +32,4 @@ urlpatterns = [
     path('pelicurapp/genero/<int:pk>/delete/', BorrarGenero.as_view(), name="borrar-genero"),
     # Auditar comentario
     path('pelicurapp/auditar/', AuditarComentario.as_view(), name="auditar-comentario"),
-    path('pelicurapp/auditar/<int:pk>/', EditarComentario.as_view(), name="editar-comentario"),
 ]

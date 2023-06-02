@@ -4,7 +4,6 @@
 
 {# Comienzo del bloque heredado #} 
 {% block contenido%}
-<div class="contenido">
 
 {# Usamos grid desde Bootstrap: https://getbootstrap.com/docs/5.3/layout/grid/#row-columns #}
 <div class="container text-center">
@@ -13,14 +12,15 @@
     {% for pelicula in page_obj %}
       <div class="col">
         {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
-        <div class="card">
-          <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
-            <img src="{{ pelicula.poster.url }}" class="card-img-top" alt="Póster de la película"/>
-          </a>
-          <div class="card-body">
-            <h5 class="card-title">{{ pelicula.titulo }}</h5>
-            <p class="card-text">{{ pelicula.puntuacion|floatformat:2 }}</p>
+        <div class="card border-success" style="max-width: 18rem;">
+          <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
+          <div class="card-body text-success">
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
+              <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+            </a>
           </div>
+          <div class="card-footer bg-transparent border-success">
+            {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
         </div>
       </div>
       {# Si no hay películas #}
@@ -56,6 +56,5 @@
 </div>
 
 {# Fin del bloque heredado #} 
-</div>
 {% endblock contenido%}
 

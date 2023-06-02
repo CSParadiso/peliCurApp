@@ -345,18 +345,14 @@ class AuditarComentario(TemplateView):
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
       return context
-   
-# Controlador para editar Comentario
-class EditarComentario(UpdateView):
-   model = Comentario
-   fields = ['estado']  
-   template_name = "formulario_comentario.html" 
 
-   def form_valid(self, form):
-     response = super().form_valid(form)
-     self.object.save()
-     return response
-   
-   def get_success_url(self):
-        return reverse('auditar-comentario')   
-   
+  # Obtener las actualizaciones de estado
+   def post(self, request):
+    comentario_id = request.POST.get('comentario_id')
+    estado = request.POST.get('estado')
+
+    # Actualizar el estado del objeto comentario
+    comentario = Comentario.manager.get(id=comentario_id)
+    comentario.auditar_comentario(estado)
+
+    return redirect('auditar-comentario')   

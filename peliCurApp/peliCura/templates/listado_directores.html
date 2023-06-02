@@ -4,30 +4,25 @@
 
 {% block contenido %}
 
-{% if page_obj|length > 0 %}
-  <table>
-    <tr>
-      <th>Director</th>
-      <th>Película/s</th>
-    </tr>
-{% endif %}
 {% for persona in page_obj %}
-    <tr>
-      <td><a href="{% url 'detalle-director-id' persona.id %}">
-          {{ persona.apellido }}, {{ persona.nombre }}</a>
-      </td>
-      <td>{% for pelicula in persona.director.all %}
-            <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
-            {{ pelicula.anio_realizacion|date:"Y" }} - 
-            {{ pelicula.titulo|upper }} - 
-            {{ pelicula.puntuacion|floatformat:2 }}</a><br>
-           {% empty %} <br>
-           {% endfor %}
-      </td>
-    </tr>
+<div class="card border-success" style="max-width: 80vw;">
+  <div class="card-header bg-transparent border-success">
+    {{ persona.apellido }}, {{ persona.nombre }}
+  </div>
+  <div class="card-body text-success">
+    <a href="{% url 'detalle-director-id' persona.id%}">
+      <img src="{{ persona.foto.url }}" class="card-img" alt="Foto de la Persona">
+    </a>
+  </div>
+  <div class="card-footer bg-transparent border-success">
+    {% for pelicula in persona.director.all %}
+      <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br>
+    {% empty %}
+    {% endfor %}
+  </div>
+</div> 
 {% empty %}<p>-- No existen películas para mostrar --</p>
 {% endfor %}
-  </table>
 
 <div class="pagination">
     <span class="step-links">

@@ -6,19 +6,32 @@
 <table>
   <tr>
     <th>Fecha</th>
+    <th>Película</th>
     <th>Estado</th>
     <th>Correo electrónico</th>
     <th>Comentario</th>
   </tr>
-{% for comentario in comentarios %}
-<tr>
-  <td>{{ comentario.fecha|date:"Y/m/d/H/i/s" }}</td>
-  <td><a href={% url 'editar-comentario' comentario.id %}>{{ comentario.estado }}</a></td>
-  <td>{{ comentario.email }}</td>
-  <td>{{ comentario.descripcion }}</td>
-</tr>  
-{% empty %} <p>No hay comentarios que auditar aún</p>
-{% endfor %}
+  {% for comentario in comentarios %}
+  <tr>
+    <td>{{ comentario.fecha|date:"Y/m/d/H/i/s" }}</td>
+    <td><a href="{% url 'detalle-pelicula-id' comentario.pelicula.id %}">{{ comentario.pelicula }}</a></td>
+    <td>
+      <form method="post" action="{% url 'auditar-comentario' %}">
+        {% csrf_token %}
+        <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
+        <select name="estado">
+          {% for choice in comentario.ESTADO_COMENTARIO_CHOICES %}
+          <option value="{{ choice.0 }}" {% if choice.0 == comentario.estado %}selected{% endif %}>{{ choice.1 }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Guardar</button>
+      </form>
+    </td>
+    <td>{{ comentario.email }}</td>
+    <td>{{ comentario.descripcion }}</td>
+  </tr>
+  {% empty %}
+  <p>No hay comentarios que auditar aún</p>
+  {% endfor %}
 </table>
-
 {% endblock %}
