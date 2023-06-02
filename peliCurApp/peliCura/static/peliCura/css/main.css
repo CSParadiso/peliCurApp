@@ -23,10 +23,19 @@ table, th, td {
   width: fit-content;
 }
 
+
 /* Clases */
 
 a:link, a:visited, a:hover, a:active {
   text-decoration: none;
+}
+
+.listado-peliculas {
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  
 }
 
   /* Sobreescribir Bootstrap */

@@ -3,24 +3,27 @@
 {% load static %}
 
 {% block contenido %}
-
-{% if page_obj|length > 0 %}
-  <table>
-    <tr>
-      <th>Año</th>
-      <th>Película/s</th>
-      <th>Puntuación</th>
-    </tr>
-{% endif %}
-{% for pelicula in page_obj %}
-    <tr>
-      <td>{{ pelicula.anio_realizacion|date:"Y" }}</td>
-      <td><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo }}</a></td> 
-      <td>{{ pelicula.calcular_puntuacion|floatformat:2 }}<br>
-    </tr>
-{% empty %}<p>-- No existen películas para mostrar --</p>
-{% endfor %}
-  </table>
+<div class="listado-peliculas">
+  {% if page_obj|length > 0 %}
+    <table>
+      <tr>
+        <th>Año</th>
+        <th>Película/s</th>
+        <th>Puntuación</th>
+        <th>Duración</th>
+      </tr>
+  {% endif %}
+  {% for pelicula in page_obj %}
+      <tr>
+        <td>{{ pelicula.anio_realizacion|date:"Y" }}</td>
+        <td><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo }}</a></td> 
+        <td>{{ pelicula.calcular_puntuacion|floatformat:2 }}<br>
+        <td>{{ pelicula.duracion }}</td>  
+      </tr>
+  {% empty %}<p>-- No existen películas para mostrar --</p>
+  {% endfor %}
+    </table>
+</div>    
 
 <div class="pagination">
     <span class="step-links">

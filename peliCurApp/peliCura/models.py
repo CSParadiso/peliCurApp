@@ -173,20 +173,23 @@ class Pelicula(models.Model):
     def calcular_puntuacion(self):
         nro_comentarios = self.comentario_set.count()
         puntuacion = 0
+        # Obtener la lista de las valoraciones de la película
         puntuaciones = list(self.comentario_set.values_list('valoracion')) # retorna tupla
         for i in puntuaciones:
             puntuacion += i[0]
+        # Si no hay comentarios, no dividimos por cero
         if nro_comentarios == 0:
-            return 0.0
+            self.puntuacion = 0.0
         else:
-          return puntuacion / nro_comentarios
+            self.puntuacion = (puntuacion / nro_comentarios)
+        return self.puntuacion 
 
     # Actualizar puntuación película
     def agregar_puntuacion(self, valoracion):
         # calcular cantidad puntuaciones
-        nro_puntuaciones = self.comentario_set.count()
+        nro_comentarios = self.comentario_set.count() + 1 # agregamos el actual
         # asignar nueva puntuación
-        self.puntuacion = (self.puntuacion + valoracion) / nro_puntuaciones
+        self.puntuacion = (self.calcular_puntuacion + valoracion) / nro_comentarios
         self.save()
         return self.puntuacion
     
@@ -242,10 +245,13 @@ class Comentario(models.Model):
 
     # Sobreescribir save() de Comentario para que actualice puntuacion de la película solo la primera vez
     def save(self, *args, **kwargs):
+        # Performamos nuestra intervención
         if not self.pk:
             # Solo actualizar si es un nuevo comentario (aún sin primary key)
             self.pelicula.agregar_puntuacion(self.valoracion)
+        # Guardamos para que ya exista
         super().save(*args, **kwargs)
+
         
         
 

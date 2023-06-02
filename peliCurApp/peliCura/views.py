@@ -356,20 +356,3 @@ class AuditarComentario(TemplateView):
     comentario.auditar_comentario(estado)
 
     return redirect('auditar-comentario')   
-
-      
-   
-# Controlador para editar Comentario
-class EditarComentario(UpdateView):
-   model = Comentario
-   fields = ['estado']  
-   template_name = "formulario_comentario.html" 
-
-   def form_valid(self, form):
-     response = super().form_valid(form)
-     self.object.save()
-     return response
-   
-   def get_success_url(self):
-        return reverse('auditar-comentario')   
-   
