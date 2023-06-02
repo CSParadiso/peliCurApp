@@ -10,7 +10,8 @@
     <div class="card-body text-success">
         <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
     </div>
-    <div class="card-footer bg-transparent border-success">{{ pelicula.puntuacion|floatformat:2 }}</div>
+    <div class="card-footer bg-transparent border-success">
+      {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
   </div>  
  
   <div class="card border-success" style="max-width: 80vw;">
@@ -36,7 +37,7 @@
         {% if actor.nombre_artistico %}
           "{{ actor.nombre_artistico }}"
         {% endif %}
-        {{ actor.apellido }}</a><br>
+        {{ actor.apellido }}</a>
       {% empty %} <br>
     {% endfor %}
     </div>
@@ -48,7 +49,7 @@
         {% if director.nombre_artistico %}
           "{{ director.nombre_artistico }}"
         {% endif %}
-        {{ director.apellido }}</a><br> 
+        {{ director.apellido }}</a> 
       {% empty %} <br>
     {% endfor %}
     </div>

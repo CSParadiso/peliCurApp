@@ -16,7 +16,7 @@
     <tr>
       <td>{{ pelicula.anio_realizacion|date:"Y" }}</td>
       <td><a href="{% url 'detalle-pelicula-id' pelicula.id %}">{{ pelicula.titulo }}</a></td> 
-      <td>{{ pelicula.puntuacion|floatformat:2 }}<br>
+      <td>{{ pelicula.calcular_puntuacion|floatformat:2 }}<br>
     </tr>
 {% empty %}<p>-- No existen películas para mostrar --</p>
 {% endfor %}

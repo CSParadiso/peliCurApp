@@ -168,6 +168,19 @@ class Pelicula(models.Model):
     puntuacion = models.FloatField("Puntuacion", default=0) # <input type="number"> y Float
     poster = models.ImageField("Póster", upload_to='posters_peliculas', null=True)
 
+    @property
+    # Calcular puntuacion para que se vea y podamos usarlo en el template
+    def calcular_puntuacion(self):
+        nro_comentarios = self.comentario_set.count()
+        puntuacion = 0
+        puntuaciones = list(self.comentario_set.values_list('valoracion')) # retorna tupla
+        for i in puntuaciones:
+            puntuacion += i[0]
+        if nro_comentarios == 0:
+            return 0.0
+        else:
+          return puntuacion / nro_comentarios
+
     # Actualizar puntuación película
     def agregar_puntuacion(self, valoracion):
         # calcular cantidad puntuaciones
@@ -211,7 +224,7 @@ class Comentario(models.Model):
     valoracion = models.FloatField("Puntaje",                           # <input type="number"> y Float
                                    validators = [MinValueValidator(1),  # DEBE SER ENTRE 1
                                                  MaxValueValidator(5)]) #  y 5  
-    pelicula = models.ForeignKey("Pelicula", on_delete=models.DO_NOTHING) 
+    pelicula = models.ForeignKey("Pelicula", on_delete=models.CASCADE) 
     # asignación --> comentario = Comentario.objects.create(descripcion="", pelicula=nombreObjectoPelicula)
     # recuperar todos los comentarios:
     # comentarios = [comentario['descripcion'] for comentario in pelicula.comentario_set.values('descripcion')]
@@ -221,16 +234,20 @@ class Comentario(models.Model):
      # Auditar comentario cuando administrador audite los comentarios
     def auditar_comentario(self, state):
         if state in dict(self.ESTADO_COMENTARIO_CHOICES):
-            self._estado = state   
+            self.estado = state   
             self.save()     
         else:
             raise ValidationError('Estado Inválido')
         return state
 
-    # Sobreescribir save() de Comentario para que actualice puntuacion de la película
+    # Sobreescribir save() de Comentario para que actualice puntuacion de la película solo la primera vez
     def save(self, *args, **kwargs):
+        if not self.pk:
+            # Solo actualizar si es un nuevo comentario (aún sin primary key)
+            self.pelicula.agregar_puntuacion(self.valoracion)
         super().save(*args, **kwargs)
-        self.pelicula.agregar_puntuacion(self.valoracion)
+        
+        
 
     # Definir para usar formularios de CreateView
     def get_absolute_url(self):

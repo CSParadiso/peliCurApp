@@ -19,7 +19,8 @@
               <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
             </a>
           </div>
-          <div class="card-footer bg-transparent border-success">{{ pelicula.puntuacion|floatformat:2 }}</div>
+          <div class="card-footer bg-transparent border-success">
+            {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
         </div>
       </div>
       {# Si no hay películas #}
