@@ -11,17 +11,8 @@
   
     {% for pelicula in page_obj %}
       <div class="col">
-        {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#image-overlays #}
-        <div class="card border-success" style="max-width: 18rem;">
-          <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
-          <div class="card-body text-success">
-            <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
-              <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
-            </a>
-          </div>
-          <div class="card-footer bg-transparent border-success">
-            {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
-        </div>
+        {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#mixins-utilities #}
+        {% include 'card.html' %}
       </div>
       {# Si no hay películas #}
     {% empty %}
@@ -36,7 +27,7 @@
 {% if page_obj.has_next%} 
   ...<br>
 {% endif %}
-
+{% comment %} TODO encapsular segunda parte del Paginator {% endcomment %}
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}

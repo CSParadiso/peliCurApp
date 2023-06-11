@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block contenido %}
-
+{% comment %} TODO Rediseñar template para que se vea en grillas {% endcomment %}
 {% for persona in page_obj %}
 <div class="card border-success" style="max-width: 80vw;">
   <div class="card-header bg-transparent border-success">
@@ -11,7 +11,7 @@
   </div>
   <div class="card-body text-success">
     <a href="{% url 'detalle-actor-id' persona.id%}">
-      <img src="{{ persona.foto.url }}" class="card-img" alt="Foto de la Persona">
+      <img src="{{ persona.foto.url }}" class="card-img-detalle" alt="Foto de la Persona">
     </a>
   </div>
   <div class="card-footer bg-transparent border-success">

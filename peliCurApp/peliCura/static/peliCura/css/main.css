@@ -35,7 +35,10 @@ a:link, a:visited, a:hover, a:active {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  
+}
+
+.listado-peliculas table {
+  caption-side: top;
 }
 
   /* Sobreescribir Bootstrap */
@@ -73,7 +76,7 @@ a:link, a:visited, a:hover, a:active {
   } */
 
   .row-cols-3 {
-    border: 2px solid orange;
+    /* border: 2px solid orange; */
     box-sizing: border-box;
   }
 
@@ -81,7 +84,7 @@ a:link, a:visited, a:hover, a:active {
     float: left;
     width: 33,33%;
     height: auto;
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     margin-bottom: 1vw;
   }
 
@@ -99,6 +102,14 @@ a:link, a:visited, a:hover, a:active {
     border: 5px solid var(--selectiveYellow);
   }
 
+  .card-img-detalle {
+    width: auto;
+    height: 77vh;
+    border: 5px solid var(--selectiveYellow);
+  }
+
+  /* TODO Definir los distintos tipos de card: index, listado y detalle */
+
   .card-header, .card-footer, .card-body {
     text-align: center;
   }
@@ -112,7 +123,7 @@ a:link, a:visited, a:hover, a:active {
     margin: 0%;
   } */
 
-  .col:hover {
+  .col .card:hover {
     transform: scale(1.1, 1.1);
     z-index: 18;
   }

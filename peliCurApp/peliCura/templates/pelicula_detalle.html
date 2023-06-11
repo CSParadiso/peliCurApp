@@ -8,7 +8,7 @@
   <div class="card border-success" style="max-width: 80vw;">
     <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
     <div class="card-body text-success">
-        <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+        <img src="{{ pelicula.poster.url }}" class="card-img-detalle" alt="Póster de la película">
     </div>
     <div class="card-footer bg-transparent border-success">
       {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>

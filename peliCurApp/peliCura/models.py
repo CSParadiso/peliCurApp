@@ -1,10 +1,16 @@
+from typing import Any
 from django.db import models
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from peliCura.managers import *
 from django.core.exceptions import *
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse, reverse_lazy
 from datetime import datetime, timedelta
 from django_countries.fields import CountryField
+from django.contrib import admin
+from django.contrib import messages
+from django.utils.translation import ngettext
 
 
 
@@ -122,6 +128,14 @@ class Persona(models.Model):
         else:
           return f"{self.nombre} {self.apellido}" 
 
+# Registrar clase Persona en admin
+@admin.register(Persona)
+class PersonaAdmin(admin.ModelAdmin):
+    date_hierarchy = 'fecha_nacimiento'
+    exclude = ['manager',]
+    list_display = ['nombre', 'apellido', 'nombre_artistico', 'nacionalidad', 
+                    'foto', 'fecha_nacimiento', 'biografia',]
+    
 
 
 
@@ -135,6 +149,10 @@ class Genero(models.Model):
     # Redefinimos el método __str__
     def __str__(self) -> str:
       return self.nombre  
+
+@admin.register(Genero)
+class GeneroAdmin(admin.ModelAdmin):
+    pass
 
 
 class Pelicula(models.Model):
@@ -201,6 +219,12 @@ class Pelicula(models.Model):
     def __str__(self) -> str:
       return self.titulo  
     
+@admin.register(Pelicula)
+class PeliculaAdmin(admin.ModelAdmin):
+    date_hierarchy = 'anio_realizacion'
+    list_display = ['titulo', 'sinopsis', 'anio_realizacion', 'duracion', 'puntuacion', 'poster',]
+    filter_horizontal = ['genero',]
+    
     
 
 
@@ -251,10 +275,7 @@ class Comentario(models.Model):
             self.pelicula.agregar_puntuacion(self.valoracion)
         # Guardamos para que ya exista
         super().save(*args, **kwargs)
-
         
-        
-
     # Definir para usar formularios de CreateView
     def get_absolute_url(self):
         return reverse("detalle-pelicula-id", kwargs={'pk':self.pelicula.pk})
@@ -262,5 +283,49 @@ class Comentario(models.Model):
     # Redefinimos el método __str__
     def __str__(self) -> str:
       return self.descripcion
+
+# Definir acciones de adminstrador sobre instancias de modelo
+@admin.action(description='Publicar comentario/s')
+def publicar_comentario(modeladmin, request, queryset):
+    # Actualizar estado a 'aceptado' y mostrar mensaje de éxito
+    actualizado = queryset.update(estado = 'A')
+    modeladmin.message_user(
+        request, 
+        ngettext(
+        "%d comentario fué publicado.",
+        "%d comentarios fueron publicados.",
+        actualizado,
+        )
+        % actualizado,
+        messages.SUCCESS,
+    )
+
+@admin.action(description='Censurar comentario/s')
+def censurar_comentario(modeladmin, request, queryset):
+    # Actualizar estado a 'aceptado' y mostrar mensaje de éxito
+    actualizado = queryset.update(estado = 'C')
+    modeladmin.message_user(
+        request, 
+        ngettext(
+        "%d comentario fué censurado.",
+        "%d comentarios fueron censurados.",
+        actualizado,
+        )
+        % actualizado,
+        messages.SUCCESS,
+    )
+
+# Asociar modelo a admin
+@admin.register(Comentario)
+class ComentarioAdmin(admin.ModelAdmin):
+    date_hierarchy = 'fecha'
+    list_display = ['estado', 'fecha', 'descripcion',]
+    list_filter = ['estado', 'pelicula', ]
+    actions = [publicar_comentario, censurar_comentario, ]
+    ordering = ['-fecha', ]
+    # # Sobreescribir el metodo get_queryset para filtrar por comentarios sin auditar
+    # def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+    #     queryset = super().get_queryset(request) 
+    #     return queryset.filter(estado = 'escrito')
 
 
