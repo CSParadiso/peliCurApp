@@ -3,45 +3,57 @@
 {% load static %}
 
 {% block contenido %}
-<div class="card border-success" style="max-width: 80vw;">
-  <div class="card-header bg-transparent border-success">
-    {{ persona.nombre }}
-    {%if persona.nombre_artistico%}
-      "{{ persona.nombre_artistico }}"
-    {% endif %}
-    {{ persona.apellido }}
-  </div>
-  <div class="card-body text-success">
-      <img src="{{ persona.foto.url }}" class="card-img-detalle" alt="Foto de la persona">
-  </div>
-  <div class="card-footer bg-transparent border-success">
-    <img src="{{ persona.nacionalidad.flag }}"> {{ persona.nacionalidad.name }}
+<div class="container text-center">
+  <div class="row row-cols-2">
+    <div class="col-detalle-persona">
+      <div class="card bg-card-persona" style="max-width: 80vw;">
+        <div class="card-header bg-transparent border-success">
+          {{ persona.nombre }} {{ persona.apellido }}
+        </div>
+        <div class="card-body text-success fondo-poster">
+            <img src="{{ persona.foto.url }}" class="card-img-detalle" alt="Foto de la persona">
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          <img src="{{ persona.nacionalidad.flag }}"> {{ persona.nacionalidad.name }}
+        </div>
+      </div>  
+    </div>
+    <div class="col-detalle-persona">  
+      <div class="card bg-card-persona" style="max-width: 80vw; min-height:fit-content">
+        <div class="card-header bg-transparent border-success">
+          {{ persona.fecha_nacimiento|date:"d-m-Y" }}
+        </div>
+        <div class="card-body fondo-poster">
+          {{ persona.biografia }}
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          {% if dirigidas|length > 0 %}
+            Dirige en: 
+              {% for pelicula in dirigidas %}
+                {% if forloop.last%}
+                  <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a>
+                {% else %}
+                  <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }} </a>
+                {% endif %}
+              {% empty %}
+              {% endfor %}
+          {% endif %}
+        {% if actuadas|length > 0 %}
+        {% if digiridas|length > 0%}<br>{% endif %}
+        Actúa en: 
+          {% for pelicula in actuadas %}
+          {% if forloop.last%}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a>
+          {% else %}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }},</a>
+          {% endif %}
+          {% empty %} 
+          {% endfor %}
+        {% endif %}
+        </div>
+      </div>  
+    </div>  
   </div>
 </div>  
 
-<div class="card border-success" style="max-width: 80vw;">
-  <div class="card-header bg-transparent border-success">
-    {{ persona.fecha_nacimiento|date:"d-m-Y" }}
-  </div>
-  <div class="card-body text-success">
-    {{ persona.biografia }}
-  </div>
-  <div class="card-footer bg-transparent border-success">
-    {% if dirigidas|length > 0 %}
-      Dirige en: 
-        {% for pelicula in dirigidas %}
-          <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >-{{ pelicula.titulo }} </a>
-        {% empty %}
-        {% endfor %}
-    {% endif %}
-  {% if actuadas|length > 0 %}
-  Actúa en: 
-    {% for pelicula in actuadas %}
-    <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >-{{ pelicula.titulo }} </a>
-    {% empty %} 
-    {% endfor %}
-  {% endif %}
-  </div>
-</div>  
-  
 {% endblock %}

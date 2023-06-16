@@ -4,25 +4,23 @@
 
 {% block contenido %}
 {% comment %} TODO Rediseñar template para que se vea en grillas {% endcomment %}
-{% for persona in page_obj %}
-<div class="card border-success" style="max-width: 80vw;">
-  <div class="card-header bg-transparent border-success">
-    {{ persona.apellido }}, {{ persona.nombre }}
-  </div>
-  <div class="card-body text-success">
-    <a href="{% url 'detalle-actor-id' persona.id%}">
-      <img src="{{ persona.foto.url }}" class="card-img-detalle" alt="Foto de la Persona">
-    </a>
-  </div>
-  <div class="card-footer bg-transparent border-success">
-    {% for pelicula in persona.actor.all %}
-      <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br>
+
+{# Usamos grid desde Bootstrap: https://getbootstrap.com/docs/5.3/layout/grid/#row-columns #}
+<div class="container text-center">
+  <div class="row row-cols-3">
+  
+    {% for persona in page_obj %}
+      <div class="col">
+        {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#mixins-utilities #}
+        {% include 'card_persona.html' %}
+      </div>
+      {# Si no hay personas #}
     {% empty %}
+      <p>No existen personas para mostrar</p>
     {% endfor %}
+
   </div>
-</div> 
-{% empty %}<p>-- No existen películas para mostrar --</p>
-{% endfor %}
+</div>
 
 <div class="pagination">
     <span class="step-links">

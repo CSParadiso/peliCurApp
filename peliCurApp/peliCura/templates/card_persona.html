@@ -1,0 +1,34 @@
+ {% comment %} En cada template que quiera usar archivos estáticos, se debe usar el load  {% endcomment %}
+{% load static %}
+{# TODO cambiar el estilo de todas las cards #}
+<div class="card bg-card-persona" style="max-width: 18rem; display:flex; flex-direction: column;">
+  <div class="card-header bg-transparent border-success">{{ persona.nombre }} {{ persona.apellido }}</div>
+  <div class="card-body text-success fondo-poster">
+    <a href="{% url 'detalle-director-id' persona.id %}">
+      <img src="{{ persona.foto.url }}" class="card-img-listado" alt="Foto de {{ persona.nombre }} 
+                                                                    {{ persona.apellido }}">
+    </a>
+  </div>
+  <div class="card-footer bg-transparent border-success">
+      {% comment %} Dependiendo de la URL mostramos peliculas actuadas o dirigidas {% endcomment %}
+      {% if request.path == '/pelicurapp/directores/' %}
+        {% for pelicula in persona.director.all %}
+          {% if forloop.last %}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br>
+          {% else %}   
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}, </a>
+          {% endif %} 
+        {% empty %}
+        {% endfor %}
+    {% elif request.path == '/pelicurapp/actores/' %}
+      {% for pelicula in persona.actor.all %}
+      {% if forloop.last %}
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}</a><br>
+          {% else %}   
+            <a href="{% url 'detalle-pelicula-id' pelicula.id %}" >{{ pelicula.titulo }}, </a>
+          {% endif %} 
+      {% empty %} 
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

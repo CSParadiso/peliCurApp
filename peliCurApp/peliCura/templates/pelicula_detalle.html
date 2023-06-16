@@ -5,9 +5,9 @@
 {% load filtros_custom %}
 
 {% block contenido %}
-  <div class="card border-success" style="max-width: 80vw;">
+  <div class="card border-success bg-card-persona" style="max-width: 80vw;">
     <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
-    <div class="card-body text-success">
+    <div class="card-body text-success fondo-poster">
         <img src="{{ pelicula.poster.url }}" class="card-img-detalle" alt="Póster de la película">
     </div>
     <div class="card-footer bg-transparent border-success">

@@ -4,6 +4,24 @@
 
 {% block contenido %}
 {% comment %} TODO Rediseñar template para que se vea en grillas {% endcomment %}
+{# Usamos grid desde Bootstrap: https://getbootstrap.com/docs/5.3/layout/grid/#row-columns #}
+<div class="container text-center">
+  <div class="row row-cols-3">
+  
+    {% for pelicula in page_obj %}
+      <div class="col">
+        {# Usamos Cards desde Bootstrap: https://getbootstrap.com/docs/5.3/components/card/#mixins-utilities #}
+        {% include 'card.html' %}
+      </div>
+      {# Si no hay películas #}
+    {% empty %}
+      <p>No existen películas para mostrar</p>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% comment %} 
 <div class="listado-peliculas">
   {% if page_obj|length > 0 %}
     <table>
@@ -24,7 +42,7 @@
   {% empty %}<p>-- No existen películas para mostrar --</p>
   {% endfor %}
     </table>
-</div>    
+</div>     {% endcomment %}
 
 <div class="pagination">
     <span class="step-links">
