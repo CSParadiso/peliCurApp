@@ -1,11 +1,12 @@
 {# En cada template que quiera usar archivos estáticos, se debe usar el load #}
 {% load static %}
 
-<div class="card border-success" style="max-width: 18rem; display:flex; flex-direction: column;">
-  <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
+<div class="card border-success bg-card-persona" style="max-width: 18rem; display:flex; flex-direction: column;">
+  <div class="card-header bg-transparent">
+    {{ pelicula.titulo|upper }}</div>
   <div class="card-body text-success">
     <a href="{% url 'detalle-pelicula-id' pelicula.id %}">
-      <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película">
+      <img src="{{ pelicula.poster.url }}" class="card-img" alt="Póster de la película {{ pelicula.titulo }}">
     </a>
   </div>
   <div class="card-footer bg-transparent border-success">

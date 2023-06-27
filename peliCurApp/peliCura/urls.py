@@ -15,6 +15,7 @@ urlpatterns = [
     path('pelicurapp/actor/<str:apellido>/', PersonaDetalle.as_view(), name="detalle-actor-nombre"),
     # Listados
     path('pelicurapp/peliculas/', PeliculasListado.as_view(), name="peliculas-listado"),
+    path('pelicurapp/peliculas/<int:anio>/', PeliculasListadoAnio.as_view(), name="anio-listado"),
     path('pelicurapp/directores/', ListadoDirectores.as_view(), name="directores-listado"),
     path('pelicurapp/actores/', ListadoActores.as_view(), name="actores-listado"),
     # Crear    

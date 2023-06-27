@@ -23,6 +23,8 @@ class Index(TemplateView):
 
         # Asignar al template para poder seleccionar desde barra de navegación
         context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+        context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
         return context
 
 # Controlador de página detalle de Película    
@@ -64,6 +66,8 @@ class PeliculaDetalle(TemplateView):
 
         # Asignar al template para poder seleccionar desde barra de navegación
         context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+        context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
         return context
 
     # Lógica del formulario 
@@ -111,6 +115,32 @@ class PeliculasListado(TemplateView):
 
     # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
+      return context 
+
+# Controlador Listado Peliculas por año
+class PeliculasListadoAnio(TemplateView):
+   template_name = 'listado_peliculas.html'
+   def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+      context = super().get_context_data(**kwargs)
+      
+      # Obtener anio de la URL
+      anio = self.kwargs['anio']
+
+      # Obtener todas las películas de ese anio particular
+      peliculas = Pelicula.manager.filter(anio_realizacion__year = anio)
+
+      # Crear paginador
+      paginador = Paginator(peliculas, 20)
+      page_number = self.request.GET.get("page")
+      context["page_obj"] = paginador.get_page(page_number)
+      context["peliculas"] = peliculas
+
+    # Asignar al template para poder seleccionar desde barra de navegación
+      context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
       return context 
 
 # Controlador de página detalle de Persona  
@@ -149,6 +179,8 @@ class PersonaDetalle(TemplateView):
 
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
       return context 
 
 # Controlador de página de listado de Géneros    
@@ -192,6 +224,8 @@ class GeneroListado(TemplateView):
 
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
       return context 
 
 # Controlador de página listado de Directores
@@ -206,14 +240,15 @@ class ListadoDirectores(TemplateView):
       context['personas'] = personas
 
       # Definir paginator y asignarle la página al template
-      paginador = Paginator(personas, 25)
+      paginador = Paginator(personas, 36)
       page_number = self.request.GET.get("page")
       page_obj = paginador.get_page(page_number)
       context['page_obj'] = page_obj
 
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
-      #context['rol'] = "director"
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
       return context    
 
 # Controlador de página listado de Actores
@@ -227,13 +262,15 @@ class ListadoActores(TemplateView):
       context['personas'] = personas
 
       # Definir paginator y asignarle la página al template
-      paginador = Paginator(personas, 25)
+      paginador = Paginator(personas, 36)
       page_number = self.request.GET.get("page")
       page_obj = paginador.get_page(page_number)
       context['page_obj'] = page_obj
 
       # Asignar al template para poder seleccionar desde barra de navegación
       context['generoNavBar'] = Genero.manager.all().order_by('nombre')
+      context['anioNavBar'] = list(Pelicula.manager.all().values_list('anio_realizacion__year',
+                                                                       flat=True).distinct())
       return context  
    
 # Controlador para crear Películas

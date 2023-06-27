@@ -2,10 +2,17 @@
 {% load static%}
 
 <div class="listado-comentarios">
-  {% for comentario in pelicula.comentario_set.all %}
-      {% if comentario.estado == "A" %}
-        <li>{{ comentario.nombre }} dice: {{ comentario.descripcion }}</li>
-      {% endif %}
-  {% empty %} <p>Sin comentarios aún</p>
-{% endfor %}
+  <div class="col-detalle-pelicula">
+      <div class="card border-success bg-card-persona" style="width: 100%;">
+        <div class="card-header bg-transparent border-success">Últimos comentarios</div>
+        <div class="card-body fondo-poster">
+          {% for comentario in pelicula.comentario_set.all %}
+            {% if comentario.estado == "A" %}
+              <li style="text-align:left;">{{ comentario.nombre }} dijo: {{ comentario.descripcion }}</li>
+            {% endif %}
+          {% empty %} <p>Sin comentarios aún</p>
+          {% endfor %}
+        </div>
+      </div>  
+  </div>  
 </div>

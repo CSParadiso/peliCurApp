@@ -21,6 +21,7 @@ table, th, td {
   text-align: center;
   padding: 5px 5px;
   width: fit-content;
+  margin-left: 0%;
 }
 
 
@@ -136,6 +137,9 @@ a:hover {
 
   .card-header {
     max-height:fit-content;
+    font-size:larger;
+    padding: 2%;
+    /* border: 2px solid var(--selectiveYellow); */
     /* border: 5px solid brown; */
   }
 
@@ -165,7 +169,7 @@ a:hover {
     z-index: 18;
   }
 
-  .formulario-comentario, .listado-comentarios {
+  .formulario-comentario {
     max-width: 80vw;
     margin: auto;
     display: block;
@@ -179,7 +183,16 @@ a:hover {
   }
 
   .listado-comentarios {
-    border: 2px solid var(--selectiveYellow);
+    max-width: 80vw;
+    margin: auto;
+    display: block;
+    text-align: left;
+    /* border: 2px solid var(--selectiveYellow); */
+  }
+
+  .listado-comentarios li {
+    color:#8ecae6;
+    list-style-type: circle;
   }
 
   

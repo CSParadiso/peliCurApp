@@ -5,59 +5,81 @@
 {% load filtros_custom %}
 
 {% block contenido %}
-  <div class="card border-success bg-card-persona" style="max-width: 80vw;">
-    <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
-    <div class="card-body text-success fondo-poster">
-        <img src="{{ pelicula.poster.url }}" class="card-img-detalle" alt="Póster de la película">
+<div class="container text-center">
+  <div class="row row-cols-2">
+    <div class="col-detalle-pelicula">
+      <div class="card border-success bg-card-persona" style="max-width: 80vw;">
+        <div class="card-header bg-transparent border-success">{{ pelicula.titulo }}</div>
+        <div class="card-body text-success fondo-poster">
+            <img src="{{ pelicula.poster.url }}" class="card-img-detalle" alt="Póster de la película">
+        </div>
+        <div class="card-footer bg-transparent border-success">
+          {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
+      </div>  
     </div>
-    <div class="card-footer bg-transparent border-success">
-      {{ pelicula.calcular_puntuacion|floatformat:2 }}</div>
-  </div>  
- 
-  <div class="card border-success" style="max-width: 80vw;">
-    <div class="card-header bg-transparent border-success">{{ pelicula.anio_realizacion|date:"Y" }}</div>
-    <div class="card-body text-success">
-      {{ pelicula.sinopsis }}
-    </div>
-    <div class="card-footer bg-transparent border-success">{{ pelicula.duracion }} minutos</div>
-  </div>  
 
-  <div class="card border-success" style="max-width: 80vw;">
-    <div class="card-header bg-transparent border-success">
-      {% for genero in generos %}
-      <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a>
-      {% empty %} <br>
-    {% endfor %}
+    <div class="col-detalle-pelicula">
+      <div class="row">
+        <div class="card border-success bg-card-persona" style="max-width: 80vw;">
+          <div class="card-header bg-transparent border-success">{{ pelicula.anio_realizacion|date:"Y" }}</div>
+          <div class="card-body fondo-poster">
+            {{ pelicula.sinopsis }}
+          </div>
+          <div class="card-footer bg-transparent border-success">{{ pelicula.duracion }} minutos</div>
+        </div>  
+      </div>  
+
+      <div class="row"  style="margin-top:2%;">
+        <div class="card border-success bg-card-persona" style="width: 100%;">
+          <div class="card-header bg-transparent border-success">
+            {% for genero in generos %}
+            <a href="{% url 'genero-listado-id' genero.id %}" target="_self">{{ genero.nombre }}</a>
+            {% empty %} <br>
+          {% endfor %}
+          </div>
+          <div class="card-body fondo-poster">
+            <span>Actuación:</span> 
+            {% for actor in actores %}
+            {% if forloop.last %}
+              <a href="{% url 'detalle-actor-id' actor.id %}" target="_self"
+              style="color:var(--skyBlue)">
+              {{ actor.nombre }} {{ actor.apellido }}
+            {% else %}
+              <a href="{% url 'detalle-actor-id' actor.id %}" target="_self"
+              style="color:var(--skyBlue)">
+              {{ actor.nombre }} {{ actor.apellido }},   
+            {% endif %}
+              </a>
+            {% empty %} <br>
+          {% endfor %}
+          </div>
+          <div class="card-footer bg-transparent border-success">
+            Dirección:
+            {% for director in directores %} 
+            {% if forloop.last%}
+              <a href="{% url 'detalle-director-id' director.id %}" target="_self">
+              {{ director.nombre }} {{ director.apellido }}
+            {% else %}
+              <a href="{% url 'detalle-director-id' director.id %}" target="_self">
+                {{ director.nombre }} {{ director.apellido }},  
+              {% endif %}
+            </a>
+            {% empty %} <br>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <div class="row" style="margin-top:2%">
+        {% include 'formulario_comentario.html'%}
+      </div>  
+
     </div>
-    <div class="card-body text-success">
-      <span style="color:black">Actuación:</span> 
-      {% for actor in actores %}
-      <a href="{% url 'detalle-actor-id' actor.id %}" target="_self">
-        -{{ actor.nombre }} 
-        {% if actor.nombre_artistico %}
-          "{{ actor.nombre_artistico }}"
-        {% endif %}
-        {{ actor.apellido }}</a>
-      {% empty %} <br>
-    {% endfor %}
-    </div>
-    <div class="card-footer bg-transparent border-success">
-      Dirección:
-      {% for director in directores %} 
-      <a href="{% url 'detalle-director-id' director.id %}" target="_self">
-        -{{ director.nombre }} 
-        {% if director.nombre_artistico %}
-          "{{ director.nombre_artistico }}"
-        {% endif %}
-        {{ director.apellido }}</a> 
-      {% empty %} <br>
-    {% endfor %}
-    </div>
-  </div>  
- 
-  <br>
+  </div>
+</div>
+  {% comment %} <br>
   {# Incluímos el formulario de los comentarios #}
-  {% include 'formulario_comentario.html'%}
+  {% include 'formulario_comentario.html'%} {% endcomment %}
 
   <br>
   {# Incluímos los comentarios aprobados de la película #}
