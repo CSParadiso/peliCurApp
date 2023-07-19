@@ -3,7 +3,7 @@ from peliCura.views import *
 
 urlpatterns = [
     # Página de inicio
-    path('pelicurapp/', Index.as_view(), name="main-page"),
+    path('', Index.as_view(), name="main-page"),
     # Páginas de detalles
     path('pelicurapp/pelicula/<int:identificador>/', PeliculaDetalle.as_view(), name="detalle-pelicula-id"),
     path('pelicurapp/pelicula/<str:titulo>/', PeliculaDetalle.as_view(), name="detalle-pelicula-titulo"),
