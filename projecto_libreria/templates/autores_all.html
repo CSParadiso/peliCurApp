@@ -1,9 +1,0 @@
-{% extends 'base_template.html'%}
-
-{% block contenido %}
-  <p>Este es un párrafo introductorio previo a un paginator de todos los autores:</p>
-  {% for autor in  %}
-    {{autor.nombre}} {{ autor.nacionalidad }} <br>
-  {% endfor %}
-{% endblock %}
-
