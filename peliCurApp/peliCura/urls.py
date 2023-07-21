@@ -18,19 +18,19 @@ urlpatterns = [
     path('pelicurapp/peliculas/<int:anio>/', PeliculasListadoAnio.as_view(), name="anio-listado"),
     path('pelicurapp/directores/', ListadoDirectores.as_view(), name="directores-listado"),
     path('pelicurapp/actores/', ListadoActores.as_view(), name="actores-listado"),
-    # Crear    
-    path('pelicurapp/add/pelicula/', CrearPelicula.as_view(), name="crear-pelicula"),
-    path('pelicurapp/add/persona/', CrearPersona.as_view(), name="crear-persona"),
-    path('pelicurapp/add/genero/', CrearGenero.as_view(), name="crear-genero"),
-    # Actualizar    
-    path('pelicurapp/pelicula/<int:pk>/update/', EditarPelicula.as_view(), name="editar-pelicula"),
-    path('pelicurapp/director/<int:pk>/update/', EditarPersona.as_view(), name="editar-persona-director"),
-    path('pelicurapp/actor/<int:pk>/update/', EditarPersona.as_view(), name="editar-persona-actor"),
-    # Borrar
-    path('pelicurapp/pelicula/<int:pk>/delete/', BorrarPelicula.as_view(), name="borrar-pelicula"),
-    path('pelicurapp/director/<int:pk>/delete/', BorrarPersona.as_view(), name="borrar-persona-director"),
-    path('pelicurapp/actor/<int:pk>/delete/', BorrarPersona.as_view(), name="borrar-persona-actor"),
-    path('pelicurapp/genero/<int:pk>/delete/', BorrarGenero.as_view(), name="borrar-genero"),
-    # Auditar comentario
-    path('pelicurapp/auditar/', AuditarComentario.as_view(), name="auditar-comentario"),
+    # # Crear    
+    # path('pelicurapp/add/pelicula/', CrearPelicula.as_view(), name="crear-pelicula"),
+    # path('pelicurapp/add/persona/', CrearPersona.as_view(), name="crear-persona"),
+    # path('pelicurapp/add/genero/', CrearGenero.as_view(), name="crear-genero"),
+    # # Actualizar    
+    # path('pelicurapp/pelicula/<int:pk>/update/', EditarPelicula.as_view(), name="editar-pelicula"),
+    # path('pelicurapp/director/<int:pk>/update/', EditarPersona.as_view(), name="editar-persona-director"),
+    # path('pelicurapp/actor/<int:pk>/update/', EditarPersona.as_view(), name="editar-persona-actor"),
+    # # Borrar
+    # path('pelicurapp/pelicula/<int:pk>/delete/', BorrarPelicula.as_view(), name="borrar-pelicula"),
+    # path('pelicurapp/director/<int:pk>/delete/', BorrarPersona.as_view(), name="borrar-persona-director"),
+    # path('pelicurapp/actor/<int:pk>/delete/', BorrarPersona.as_view(), name="borrar-persona-actor"),
+    # path('pelicurapp/genero/<int:pk>/delete/', BorrarGenero.as_view(), name="borrar-genero"),
+    # # Auditar comentario
+    # path('pelicurapp/auditar/', AuditarComentario.as_view(), name="auditar-comentario"),
 ]
